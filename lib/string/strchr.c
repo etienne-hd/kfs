@@ -41,14 +41,14 @@ static inline char	*simple_strchr(const char *s, int c)
 	return ((char *)pc);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*strchr(const char *s, int c)
 {
 	t_uchar	*pc;
 	size_t	xw;
 	size_t	w;
 
 	if (c == '\0')
-		return ((char *)s + ft_strlen(s));
+		return ((char *)s + strlen(s));
 	pc = (t_uchar *)s;
 	while ((uintptr_t)s & (sizeof(size_t) - 1))
 	{

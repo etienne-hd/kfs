@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	strlcpy(char *dst, const char *src, size_t size)
 {
-	const size_t	src_len = ft_strlen(src);
+	const size_t	src_len = strlen(src);
 	size_t			copy_len;
 
 	if (size == 0)
@@ -23,7 +23,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		copy_len = src_len;
 	else
 		copy_len = size - 1;
-	ft_memcpy(dst, src, copy_len);
+	memcpy(dst, src, copy_len);
 	dst[copy_len] = '\0';
 	return (src_len);
 }

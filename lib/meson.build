@@ -1,6 +1,7 @@
 sources_slibc = files(
   # 'alloc/ft_calloc.c',
   # 'alloc/strdup.c',
+  'alloc/dummy.c',
   'char/isalnum.c',
   'char/isalpha.c',
   'char/isascii.c',

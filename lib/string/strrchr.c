@@ -27,7 +27,7 @@ inline static size_t	high(void)
 	return ((size_t)-1 / 255 << 7);
 }
 
-inline static char	*ft_strrchr_generic(const char *s, int c, size_t n)
+inline static char	*strrchr_generic(const char *s, int c, size_t n)
 {
 	const t_uchar	ch = (t_uchar)c;
 
@@ -40,13 +40,13 @@ inline static char	*ft_strrchr_generic(const char *s, int c, size_t n)
 	return (NULL);
 }
 
-char	*ft_strrchr(const char *s, int c)
+char	*strrchr(const char *s, int c)
 {
 	const size_t	c_mask = mask((t_uchar)c);
 	size_t			n;
 	size_t			xor_word;
 
-	n = ft_strlen(s);
+	n = strlen(s);
 	if ((t_uchar)c == '\0')
 		return ((char *)(s + n));
 	s += n;
@@ -64,5 +64,5 @@ char	*ft_strrchr(const char *s, int c)
 		s -= 8;
 		n -= 8;
 	}
-	return (ft_strrchr_generic(s - n, c, n));
+	return (strrchr_generic(s - n, c, n));
 }

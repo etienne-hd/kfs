@@ -22,7 +22,7 @@ inline static size_t	get_high(void)
 	return ((size_t)-1 / 255 << 7);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	strlen(const char *s)
 {
 	const char	*p = s;
 	size_t		w;

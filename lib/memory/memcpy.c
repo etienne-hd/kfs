@@ -41,7 +41,7 @@ inline static void	copy_blocks(size_t **d, size_t **s, size_t *n)
 	*n = remain;
 }
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*memcpy(void *dest, const void *src, size_t n)
 {
 	t_uchar	*d;
 	t_uchar	*s;

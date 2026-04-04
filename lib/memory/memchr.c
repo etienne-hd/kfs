@@ -39,7 +39,7 @@ static inline void	*ft_memchr_one(unsigned char *p, int byte, size_t n)
 	return (NULL);
 }
 
-void	*ft_memchr(const void *mem, int byte, size_t n)
+void	*memchr(const void *mem, int byte, size_t n)
 {
 	const size_t	test = make_size_t(byte);
 	unsigned char	*p;

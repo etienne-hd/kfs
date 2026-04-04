@@ -35,7 +35,7 @@ static inline size_t	high(void)
 	return (((size_t)-1 / 255) << 7);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	*w1;
 	size_t	*w2;

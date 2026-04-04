@@ -31,7 +31,7 @@ inline static size_t	*fill_blocks(size_t *ptr, size_t *n)
 	return (ptr);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	bzero(void *s, size_t n)
 {
 	t_uchar	*p_c;
 	size_t	*p_l;

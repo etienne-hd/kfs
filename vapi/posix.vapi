@@ -70,9 +70,6 @@ public struct int {
 	public inline string to_string () {
 		return "%d".printf (this);
 	}
-
-	[CCode (cname = "atoi", cheader_filename = "stdlib.h")]
-	public static int parse (string str);
 }
 
 [CCode (cname = "unsigned int", default_value = "0U")]
@@ -105,9 +102,6 @@ public struct long {
 	public inline string to_string () {
 		return "%li".printf (this);
 	}
-
-	[CCode (cname = "atol", cheader_filename = "stdlib.h")]
-	public static long parse (string str);
 }
 
 [CCode (cname = "unsigned long", default_value = "0UL")]
@@ -137,23 +131,11 @@ public struct ssize_t {
 [CCode (cname = "int8_t", cheader_filename = "stdint.h", default_value = "0")]
 [IntegerType (rank = 1, min = -128, max = 127)]
 public struct int8 {
-	[CCode (cname = "PRIi8", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "uint8_t", cheader_filename = "stdint.h", default_value = "0U")]
 [IntegerType (rank = 3, min = 0, max = 255)]
 public struct uint8 {
-	[CCode (cname = "PRIu8", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "int16_t", cheader_filename = "stdint.h", default_value = "0")]
@@ -170,81 +152,36 @@ public struct int16 {
 [CCode (cname = "uint16_t", cheader_filename = "stdint.h", default_value = "0U")]
 [IntegerType (rank = 5, min = 0, max = 65535)]
 public struct uint16 {
-	[CCode (cname = "PRIu16", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "int32_t", cheader_filename = "stdint.h", default_value = "0")]
 [IntegerType (rank = 6)]
 public struct int32 {
-	[CCode (cname = "PRIi32", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "uint32_t", cheader_filename = "stdint.h", default_value = "0U")]
 [IntegerType (rank = 7)]
 public struct uint32 {
-	[CCode (cname = "PRIu32", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "int64_t", cheader_filename = "stdint.h", default_value = "0LL")]
 [IntegerType (rank = 10)]
 public struct int64 {
-	[CCode (cname = "PRIi64", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
-
-	[CCode (cname = "strtoll", cheader_filename = "stdlib.h")]
-	public static int64 parse (string str, out unowned string? end = null, int base = 10);
 }
 
 [CCode (cname = "uint64_t", cheader_filename = "stdint.h", default_value = "0ULL")]
 [IntegerType (rank = 11)]
 public struct uint64 {
-	[CCode (cname = "PRIu64", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
-
-	[CCode (cname = "strtoull", cheader_filename = "stdlib.h")]
-	public static uint64 parse (string str, out unowned string? end = null, int base = 10);
 }
 
 [CCode (cname = "float", default_value = "0.0F")]
 [FloatingType (rank = 1)]
 public struct float {
-	public inline string to_string () {
-		return "%.8g".printf (this);
-	}
 }
 
 [CCode (cname = "double", default_value = "0.0")]
 [FloatingType (rank = 2)]
 public struct double {
-	public inline string to_string () {
-		return "%.17g".printf (this);
-	}
-
-	[CCode (cname = "strtod", cheader_filename = "stdlib.h")]
-	public static double parse (string str, out unowned string? end = null);
 }
 
 [CCode (cheader_filename = "time.h")]
@@ -285,6 +222,12 @@ public class string {
 		}
 		return result;
 	}
+
+    [CCode (cname="strcmp")]
+    public void compare(string cmp);
+
+	[CCode (cname="strstr")]
+    public bool contains(string cmp);
 
 	public inline unowned string to_string () {
 		return this;

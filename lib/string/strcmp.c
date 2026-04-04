@@ -32,7 +32,7 @@ static inline int	strcmp_generic(const t_uchar *s1, const t_uchar *s2)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	strcmp(const char *s1, const char *s2)
 {
 	size_t	*w1;
 	size_t	*w2;

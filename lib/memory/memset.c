@@ -36,7 +36,7 @@ inline static size_t	*fill_blocks(size_t *ptr, size_t byte, size_t *n)
 	return (ptr);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+void	*memset(void *s, int c, size_t n)
 {
 	const size_t	byte = make_size_t((t_uchar)c);
 	t_uchar			*ptr_c;
