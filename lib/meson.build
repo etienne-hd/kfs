@@ -16,7 +16,6 @@ sources_slibc = files(
   'memory/memmove.c',
   'memory/memset.c',
   'string/atoi.c',
-  'string/itoa.c',
   'string/strcat.c',
   'string/strchr.c',
   'string/strcmp.c',

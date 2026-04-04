@@ -16,9 +16,7 @@ int	ft_atoi(const char *str)
 {
 	int	sign;
 	int	result;
-	int	i;
 
-	i = 0;
 	result = 0;
 	while ((unsigned char)(*str - 9) <= 4 || *str == ' ')
 		++str;

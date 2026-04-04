@@ -1,4 +1,4 @@
-project('myos', 'c',
+project('myos', ['c', 'vala'],
   version : '0.1',
   default_options : [
     'c_std=gnu99',
@@ -6,6 +6,9 @@ project('myos', 'c',
     'warning_level=2'
   ]
 )
+
+vapi_dir = meson.current_source_dir() / 'vapi'
+add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
 # On ajoute les flags spécifiques au freestanding
 add_project_arguments([
@@ -28,8 +31,10 @@ subdir('lib')
 
 # Définition du noyau
 executable('myos.bin',
-  'kernel.c',
+  'kernel.vala',
   'boot.s', # Meson reconnaît l'extension .s
+  vala_args: ['--profile=posix'],
+  c_args: '-w',
   dependencies: [dep_slib],
   link_args : ['-T', meson.current_source_dir() + '/linker.ld'],
   install : true
