@@ -1,0 +1,43 @@
+
+sources = files(
+  'alloc/ft_calloc.c',
+  'alloc/strdup.c',
+  'char/isalnum.c',
+  'char/isalpha.c',
+  'char/isascii.c',
+  'char/isdigit.c',
+  'char/isprint.c',
+  'char/isspace.c',
+  'char/tolower.c',
+  'char/toupper.c',
+  'memory/bzero.c',
+  'memory/memchr.c',
+  'memory/memcmp.c',
+  'memory/memcpy.c',
+  'memory/memmove.c',
+  'memory/memset.c',
+  'string/atoi.c',
+  'string/itoa.c',
+  'string/strcat.c',
+  'string/strchr.c',
+  'string/strcmp.c',
+  'string/strcpy.c',
+  'string/strlcat.c',
+  'string/strlcpy.c',
+  'string/strlen.c',
+  'string/strncmp.c',
+  'string/strnstr.c',
+  'string/strrchr.c',
+  'string/strstr.c',
+)
+
+lib_slib = static_library('slibc',
+  sources,
+  dependencies : dependencies,
+  install : true,
+)
+
+dep_slib = declare_dependency(
+  link_with : lib_slib,
+  include_directories : include_directories('include'),
+)
