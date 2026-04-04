@@ -240,7 +240,7 @@ public class string {
     }
 
 	public int size {
-		[CCode (cname = "ft_strlen")]
+		[CCode (cname = "strlen")]
 		get;
 	}
 }
