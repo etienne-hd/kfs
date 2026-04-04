@@ -267,7 +267,7 @@ public struct va_list {
 
 [Compact]
 [Immutable]
-[CCode (cname = "char", const_cname = "const char", copy_function = "strdup", free_function = "free", cheader_filename = "stdlib.h,string.h")]
+[CCode (cname = "char", const_cname = "const char", free_function = "free", cheader_filename = "libft.h")]
 public class string {
 	[PrintfFormat]
 	public string printf (...);
@@ -290,8 +290,14 @@ public class string {
 		return this;
 	}
 
-	public int length {
-		[CCode (cname = "strlen")]
+
+    public char get(int index) {
+        char *self = (char*)this;
+        return self[index]; 
+    }
+
+	public int size {
+		[CCode (cname = "ft_strlen")]
 		get;
 	}
 }
