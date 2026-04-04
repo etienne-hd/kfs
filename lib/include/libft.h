@@ -13,10 +13,10 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <ctype.h>
+// # include <ctype.h>
 # include <stddef.h>
 # include <stdint.h>
-# include <unistd.h>
+// # include <unistd.h>
 
 typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;

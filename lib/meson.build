@@ -1,7 +1,6 @@
-
-sources = files(
-  'alloc/ft_calloc.c',
-  'alloc/strdup.c',
+sources_slibc = files(
+  # 'alloc/ft_calloc.c',
+  # 'alloc/strdup.c',
   'char/isalnum.c',
   'char/isalpha.c',
   'char/isascii.c',
@@ -32,9 +31,9 @@ sources = files(
 )
 
 lib_slib = static_library('slibc',
-  sources,
-  dependencies : dependencies,
-  install : true,
+  sources_slibc,
+  include_directories : include_directories('include'),
+  install : false,
 )
 
 dep_slib = declare_dependency(
