@@ -13,7 +13,7 @@ void main() {
 			value = Keyboard.get_key();
 			char repr = Keymap.get_char(value);
 			if (repr != 0) {
-				if (Keyboard.key_state[Keymap.KEY_SHIFT])
+				if (Keyboard.key_state[Keymap.KEY_SHIFT] && repr >= 'a' && repr <= 'z')
 					Screen.print_char(Keymap.get_char(value) - 32);
 				else
 					Screen.print_char(Keymap.get_char(value));
