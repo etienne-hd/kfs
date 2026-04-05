@@ -1,5 +1,18 @@
 #include "libft.h"
 
+inline static int    strncmp_generic(const t_uchar *c1, const t_uchar *c2,
+        size_t n)
+{
+    while (n--)
+    {
+        if (*c1 != *c2 || *c1 == '\0' || *c2 == '\0')
+            return (*c1 - *c2);
+        c1++;
+        c2++;
+    }
+    return (0);
+}
+
 int	strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	*w1;
