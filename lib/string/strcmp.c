@@ -1,15 +1,5 @@
 #include "libft.h"
 
-static inline size_t	low(void)
-{
-	return ((size_t)-1 / 255);
-}
-
-static inline size_t	high(void)
-{
-	return (((size_t)-1 / 255) << 7);
-}
-
 static inline int	strcmp_generic(const t_uchar *s1, const t_uchar *s2)
 {
 	while (*s1 && (*s1 == *s2))
@@ -40,7 +30,7 @@ int	strcmp(const char *s1, const char *s2)
 		return (strcmp_generic(c1, c2));
 	w1 = (size_t *)c1;
 	w2 = (size_t *)c2;
-	while (*w1 == *w2 && !((*w1 - low()) & ~*w1 & high()))
+	while (*w1 == *w2 && !((*w1 - low_mask()) & ~*w1 & high_mask()))
 	{
 		w1++;
 		w2++;

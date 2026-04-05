@@ -1,20 +1,5 @@
 #include "libft.h"
 
-inline static size_t	make_size_t(t_uchar byte)
-{
-	return (byte * ((size_t)-1 / 0xFF));
-}
-
-inline static size_t	low(void)
-{
-	return ((size_t)-1 / 255);
-}
-
-inline static size_t	high(void)
-{
-	return ((size_t)-1 / 255 << 7);
-}
-
 static inline char	*simple_strchr(const char *s, int c)
 {
 	t_uchar	*pc;
@@ -49,8 +34,8 @@ char	*strchr(const char *s, int c)
 	while (1)
 	{
 		w = *(size_t *)pc;
-		xw = w ^ make_size_t((t_uchar) c);
-		if (((w - low()) & ~w & high()) || ((xw - low()) & ~xw & high()))
+		xw = w ^ repeat_byte((t_uchar) c);
+		if (((w - low_mask()) & ~w & high_mask()) || ((xw - low_mask()) & ~xw & high_mask()))
 			break ;
 		pc += sizeof(size_t);
 	}

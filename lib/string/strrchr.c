@@ -1,20 +1,5 @@
 #include "libft.h"
 
-inline static size_t	mask(t_uchar byte)
-{
-	return (byte * ((size_t)-1 / 0xFF));
-}
-
-inline static size_t	low(void)
-{
-	return ((size_t)-1 / 255);
-}
-
-inline static size_t	high(void)
-{
-	return ((size_t)-1 / 255 << 7);
-}
-
 inline static char	*strrchr_generic(const char *s, int c, size_t n)
 {
 	const t_uchar	ch = (t_uchar)c;
@@ -30,7 +15,7 @@ inline static char	*strrchr_generic(const char *s, int c, size_t n)
 
 char	*strrchr(const char *s, int c)
 {
-	const size_t	c_mask = mask((t_uchar)c);
+	const size_t	c_mask = repeat_byte((t_uchar)c);
 	size_t			n;
 	size_t			xor_word;
 
@@ -47,7 +32,7 @@ char	*strrchr(const char *s, int c)
 	while (n >= 8)
 	{
 		xor_word = (*(size_t *)(s - 8)) ^ c_mask;
-		if ((xor_word - low()) & ~xor_word & high())
+		if ((xor_word - low_mask()) & ~xor_word & high_mask())
 			break ;
 		s -= 8;
 		n -= 8;

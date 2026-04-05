@@ -1,15 +1,5 @@
 #include "libft.h"
 
-inline static size_t	get_mask(void)
-{
-	return ((size_t)-1 / 255);
-}
-
-inline static size_t	get_high(void)
-{
-	return ((size_t)-1 / 255 << 7);
-}
-
 size_t	strlen(const char *s)
 {
 	const char	*p = s;
@@ -24,7 +14,7 @@ size_t	strlen(const char *s)
 	while (1)
 	{
 		w = *(const size_t *)p;
-		if ((w - get_mask()) & ~w & get_high())
+		if ((w - (size_t)-1 / 255) & ~w & high_mask())
 			break ;
 		p += sizeof(size_t);
 	}

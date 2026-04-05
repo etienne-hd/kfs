@@ -1,20 +1,5 @@
 #include "libft.h"
 
-inline static size_t	make_size_t(unsigned char byte)
-{
-	return (byte * ((size_t)-1 / 0xFF));
-}
-
-inline static size_t	low(void)
-{
-	return ((size_t)-1 / 255);
-}
-
-inline static size_t	high(void)
-{
-	return ((size_t)-1 / 255 << 7);
-}
-
 static inline void	*ft_memchr_one(unsigned char *p, int byte, size_t n)
 {
 	while (n > 0)
@@ -29,7 +14,7 @@ static inline void	*ft_memchr_one(unsigned char *p, int byte, size_t n)
 
 void	*memchr(const void *mem, int byte, size_t n)
 {
-	const size_t	test = make_size_t(byte);
+	const size_t	test = repeat_byte(byte);
 	unsigned char	*p;
 	size_t			word;
 
@@ -45,7 +30,7 @@ void	*memchr(const void *mem, int byte, size_t n)
 	{
 		word = *(size_t *)p;
 		word = word ^ test;
-		if ((word - low()) & ~word & high())
+		if ((word - low_mask()) & ~word & high_mask())
 			break ;
 		p += sizeof(size_t);
 		n -= sizeof(size_t);

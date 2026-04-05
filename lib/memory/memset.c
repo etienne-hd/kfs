@@ -1,10 +1,5 @@
 #include "libft.h"
 
-inline static size_t	make_size_t(t_uchar byte)
-{
-	return (byte * ((size_t)-1 / 0xFF));
-}
-
 inline static size_t	*fill_blocks(size_t *ptr, size_t byte, size_t *n)
 {
 	while (*n >= (sizeof(size_t) * 4))
@@ -26,7 +21,7 @@ inline static size_t	*fill_blocks(size_t *ptr, size_t byte, size_t *n)
 
 void	*memset(void *s, int c, size_t n)
 {
-	const size_t	byte = make_size_t((t_uchar)c);
+	const size_t	byte = repeat_byte((t_uchar)c);
 	t_uchar			*ptr_c;
 	size_t			*ptr;
 

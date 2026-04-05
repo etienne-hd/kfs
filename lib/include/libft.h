@@ -17,6 +17,21 @@ typedef uint16_t		t_uint16;
 typedef uint32_t		t_uint32;
 typedef uint64_t		t_uint64;
 
+inline static size_t	repeat_byte(t_uchar byte)
+{
+	return (byte * ((size_t)-1 / 0xFF));
+}
+
+inline static size_t	low_mask(void)
+{
+	return ((size_t)-1 / 255);
+}
+
+inline static size_t	high_mask(void)
+{
+	return ((size_t)-1 / 255 << 7);
+}
+
 // memory/*.c
 void					*memmove(void *dest, const void *src, size_t n);
 int						memcmp(const void *s1, const void *s2, size_t n);
