@@ -26,8 +26,10 @@ namespace Screen {
 			cursor = cursor - (cursor % Vga.WIDTH) + Vga.WIDTH;
 			return ;
 		}
-		if (index == -1)
+		if (index == -1) {
 			index = cursor++;
+			Cursor.set_position ((uint16)cursor);
+		}
 		buffer[index] = c | (color << 8);
 	}
 
