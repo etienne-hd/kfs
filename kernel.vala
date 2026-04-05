@@ -3,28 +3,47 @@ public const int VGA_WIDTH  = 80;
 public const int VGA_HEIGHT = 25;
 public const size_t VGA_MEMORY = 0xB8000; 
 uint16* terminal_buffer = (uint16*)VGA_MEMORY;
-// public const KEYBOARD_DATA_PORT 0x60
+uint cursor_position = 0;
 
-
-void terminal_initialize() 
+void terminal_clear()
 {
-	size_t terminal_row;
-	size_t terminal_column;
-	uint8 terminal_color;
-	uint16* terminal_buffer = (uint16*)VGA_MEMORY;
-	terminal_row = 0;
-	terminal_column = 0;
-	terminal_color = 0x0F; // White on black
-	
 	for (size_t y = 0; y < VGA_HEIGHT; y++)
 	{
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
+		for (size_t x = 0; x < VGA_WIDTH; x++)
+		{
 			size_t index = y * VGA_WIDTH + x;
-			terminal_buffer[index] = (uint16)(' ' | (terminal_color << 8));
+			terminal_buffer[index] = (uint16)(' ' | ((0xF | 0x0 << 4) << 8));
 		}
 	}
+	cursor_position = 0;	
 }
+
+void print(string s, int color)
+{
+	foreach (char c in s)
+	{
+		if (c == '\n')
+		{
+			cursor_position -= cursor_position % VGA_WIDTH;
+			cursor_position += VGA_WIDTH;
+			continue;
+		}
+		terminal_buffer[cursor_position] = (uint16)(c | color);
+		cursor_position++;
+	}
+}
+
 void main() {
-	terminal_initialize();
-	terminal_buffer[0] = (uint16)('H' | 0x0F00);
+	terminal_clear();
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("\n\n\n\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("Hello, World!\n", 0x3F00);
+	print("FELIS NAVIDAD\n", 0x3F00);
+
 }
