@@ -2,14 +2,16 @@
 
 void* malloc(size_t nmemb) {
     (void)nmemb;
-	for(;;); 
+	for(;;)
+		; 
     return NULL; 
 }
 
 void* calloc(size_t nmemb, size_t size) {
     (void)nmemb;
 	(void)size;
-    for(;;); 
+    for(;;)
+		; 
     return NULL; 
 }
 
