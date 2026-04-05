@@ -1,10 +1,12 @@
-public const int VGA_WIDTH  = 80;
-public const int VGA_HEIGHT = 25;
-public const size_t VGA_MEMORY = 0xB8000; 
+struct Vga : uint16 {
+	public const size_t MEMORY = 0xB8000; 
+	public const int WIDTH = 80;
+	public const int HEIGHT = 25;
+}
 
 namespace Screen
 {
-	private uint16 *buffer = (uint16*)VGA_MEMORY;
+	private Vga *buffer = (Vga*)Vga.MEMORY;
 	private uint cursor = 0;
 
 	void print_char(char c, uint8 color = 0xF0, size_t index = -1)
@@ -30,11 +32,11 @@ namespace Screen
 
 	void clear()
 	{
-		for (size_t y = 0; y < VGA_HEIGHT; y++)
+		for (size_t y = 0; y < Vga.HEIGHT; y++)
 		{
-			for (size_t x = 0; x < VGA_WIDTH; x++)
+			for (size_t x = 0; x < Vga.WIDTH; x++)
 			{
-				size_t index = y * VGA_WIDTH + x;
+				size_t index = y * Vga.WIDTH + x;
 				print_char(' ', 0x0F, index);
 			}
 		}
