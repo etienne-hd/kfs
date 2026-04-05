@@ -54,6 +54,22 @@ public struct char {
 	public inline string to_string () {
 		return "%c".printf (this);
 	}
+	[CCode (cname = "isalnum")]
+	public char is_alnum ();
+	[CCode (cname = "isalpha")]
+	public char is_alpha ();
+	[CCode (cname = "isascii")]
+	public char is_ascii ();
+	[CCode (cname = "isdigit")]
+	public char is_digit ();
+	[CCode (cname = "isprint")]
+	public char is_print ();
+	[CCode (cname = "isspace")]
+	public char is_space ();
+	[CCode (cname = "tolower")]
+	public char to_lower ();
+	[CCode (cname = "toupper")]
+	public char to_upper ();
 }
 
 [CCode (cname = "unsigned char", default_value = "\'\\0\'")]
@@ -62,6 +78,22 @@ public struct uchar {
 	public inline string to_string () {
 		return "%hhu".printf (this);
 	}
+	[CCode (cname = "isalnum")]
+	public uchar is_alnum ();
+	[CCode (cname = "isalpha")]
+	public uchar is_alpha ();
+	[CCode (cname = "isascii")]
+	public uchar is_ascii ();
+	[CCode (cname = "isdigit")]
+	public uchar is_digit ();
+	[CCode (cname = "isprint")]
+	public uchar is_print ();
+	[CCode (cname = "isspace")]
+	public uchar is_space ();
+	[CCode (cname = "tolower")]
+	public uchar to_lower ();
+	[CCode (cname = "toupper")]
+	public uchar to_upper ();
 }
 
 [CCode (cname = "int", default_value = "0")]
