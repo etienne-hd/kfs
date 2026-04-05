@@ -9,20 +9,25 @@ namespace Screen {
 	private uint cursor = 0;
 
 	void print_char (char c, Color color = Color.pack(WHITE, BLACK), size_t index = -1) {
+		if (c == '\n' && index == -1)
+		{
+			cursor = cursor - (cursor % Vga.WIDTH) + Vga.WIDTH;
+			return ;
+		}
 		if (index == -1)
 			index = cursor++;
 		buffer[index] = c | (color << 8);
 	}
 
-	void print (string s, Color color = Color.pack(WHITE, BLACK), size_t index = -1) {
+	void print (string s, Color color = Color.pack(WHITE, BLACK), uint index = -1) {
+		uint cursor_save = cursor;
+		if (index != -1)
+			cursor = index;
 		foreach (char c in s) {
-			if (index == -1)
-				print_char(c, color, index);
-			else {
-				print_char(c, color, index);
-				index++;
-			}
+			print_char(c, color);
 		}
+		if (index != -1)
+			cursor = cursor_save;
 	}
 
 	void clear () {
