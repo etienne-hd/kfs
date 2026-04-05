@@ -24,6 +24,7 @@ namespace Screen {
 		if (c == '\n' && index == -1)
 		{
 			cursor = cursor - (cursor % Vga.WIDTH) + Vga.WIDTH;
+			Cursor.set_position ((uint16)cursor);
 			return ;
 		}
 		if (index == -1) {
