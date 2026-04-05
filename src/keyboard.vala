@@ -45,7 +45,6 @@ namespace Keyboard {
 				case KEY_DOT: return '.'; case KEY_SLASH: return '/';
 			
 				case KEY_SPACE: return ' '; case KEY_ENTER: return '\n';
-				case KEY_TAB: return '\t';
 			
 				default: return 0;
 			}
@@ -54,8 +53,7 @@ namespace Keyboard {
 
 	public Keymap get_key()
 	{
-		Keymap inputdata;
-		inputdata = (Keymap)Cpu.inb(0x60);
+		Keymap inputdata = (Keymap)Cpu.inb(0x60);
 		key_state[inputdata & 0x7F] = inputdata < 0x80;
 		return inputdata;
 	}
