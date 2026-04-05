@@ -4,8 +4,6 @@ struct Vga : uint16 {
 	public const uint16 HEIGHT = 25;
 }
 
-
-
 namespace Screen {
 	namespace Cursor {
 		public static void set_position (uint16 pos) {
@@ -20,30 +18,66 @@ namespace Screen {
 	private Vga *buffer = (Vga*)Vga.MEMORY;
 	private uint cursor = 0;
 
-	void print_char (char c, Color color = Color.pack(WHITE, BLACK), uint index = -1) {
-		if (c == '\n' && index == -1)
+	void print_char (char c, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
+		if (c == '\n' && cursor_index == -1)
 		{
 			cursor = cursor - (cursor % Vga.WIDTH) + Vga.WIDTH;
 			Cursor.set_position ((uint16)cursor);
 			return ;
 		}
-		if (index == -1) {
-			index = cursor++;
+		if (cursor_index == -1) {
+			cursor_index = cursor++;
 			Cursor.set_position ((uint16)cursor);
 		}
-		buffer[index] = c | (color << 8);
+		buffer[cursor_index] = c | (color << 8);
 	}
 
-	void print (string s, Color color = Color.pack(WHITE, BLACK), uint index = -1) {
+	void print (string s, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
 		uint cursor_save = cursor;
-		if (index != -1)
-			cursor = index;
+		if (cursor_index != -1)
+			cursor = cursor_index;
 		foreach (char c in s) {
 			print_char(c, color);
 		}
-		if (index == -1)
+		if (cursor_index == -1)
 			Cursor.set_position ((uint16)cursor);
-		if (index != -1)
+		if (cursor_index != -1)
+			cursor = cursor_save;
+	}
+
+	void print_int (int value, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
+		char buffer[12];
+		int index = 11;
+		bool is_neg = value < 0;
+		int res;
+
+		uint cursor_save = cursor;
+		if (cursor_index != -1)
+			cursor = cursor_index;
+
+		if (is_neg)
+			value *= -1;
+		buffer[index--] = 0;
+		if (value == 0)
+			buffer[index] = '0';
+		else {
+			while (value != 0) {
+				res = (value / 10);
+				buffer[index] = (char)((value - (res * 10)) + '0');
+				value = res;
+				if (value != 0)
+					index--;
+			}
+		}
+		if (is_neg) {
+			index--;
+			buffer[index] = '-';
+		}
+		print((string)&buffer[index], color);
+
+		if (cursor_index == -1)
+			Cursor.set_position ((uint16)cursor);
+		if (cursor_index != -1)
 			cursor = cursor_save;
 	}
 
