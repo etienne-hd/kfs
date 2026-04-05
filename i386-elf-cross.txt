@@ -7,6 +7,10 @@ strip = 'i386-elf-strip'
 [properties]
 needs_exe_wrapper = true
 
+[built-in options]
+# C'est ici que l'on met les options par défaut désormais
+nasm_args = ['-f', 'elf32']
+
 [host_machine]
 system = 'baremetal'
 cpu_family = 'x86'
