@@ -3,4 +3,5 @@ sources += files(
   'screen.vala',
   'color.vala',
   'helper.asm',
+  'keyboard.vala'
 )
