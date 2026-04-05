@@ -256,5 +256,19 @@ namespace Posix {
 	[CCode (cheader_filename = "assert.h")]
 	public void assert (bool expression);
 
+	namespace Memory {
+		[CCode (cname = "memmove")]
+		public void *move(void* dest, void* src, size_t n);
+		[CCode (cname = "memcmp")]
+		public int	cmp(void *s1, void *s2, size_t n);
+		[CCode (cname = "memchr")]
+		public void* chr(void* mem, int byte, size_t n);
+		[CCode (cname = "memset")]
+		public void* set(void *s, int c, size_t n);
+		[CCode (cname = "memcpy")]
+		public void *cpy(void *dest, void *src, size_t n);
+		[CCode (cname = "bzero")]
+		public void bzero(void *s, size_t n);
+	}
 
 }
