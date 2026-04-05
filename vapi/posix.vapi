@@ -180,6 +180,11 @@ public struct float {
 public struct double {
 }
 
+[CCode (cname = "uintptr_t", cheader_filename = "stdint.h")]
+public struct uintptr : size_t {
+
+}
+
 [SimpleType]
 [CCode (cheader_filename = "stdarg.h", cprefix = "va_", has_type_id = false, destroy_function = "va_end", lvalue_access = false)]
 public struct va_list {
@@ -296,7 +301,7 @@ namespace Posix {
 		[CCode (cname = "memset")]
 		public void* set(void *s, int c, size_t n);
 		[CCode (cname = "memsetw")]
-		public void* setword(void *s, uint16 c, size_t n);
+		public void* setword(void *s, uint16 c, size_t elem);
 		[CCode (cname = "memcpy")]
 		public void *cpy(void *dest, void *src, size_t n);
 		[CCode (cname = "bzero")]

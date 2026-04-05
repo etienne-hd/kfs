@@ -9,11 +9,11 @@ struct Vga : uint16 {
 namespace Screen {
 	namespace Cursor {
 		public static void set_position (uint16 pos) {
-			outb (0x3D4, 0x0F);
-			outb (0x3D5, (uint8)(pos & 0xFF));
+			Cpu.outb (0x3D4, 0x0F);
+			Cpu.outb (0x3D5, (uint8)(pos & 0xFF));
 		
-			outb (0x3D4, 0x0E);
-			outb (0x3D5, (uint8)((pos >> 8) & 0xFF));
+			Cpu.outb (0x3D4, 0x0E);
+			Cpu.outb (0x3D5, (uint8)((pos >> 8) & 0xFF));
 		}
 	}
 

@@ -69,7 +69,7 @@ namespace Keyboard {
 	public Keymap get_key()
 	{
 		Keymap inputdata;
-		inputdata = (Keymap)inb(0x60);
+		inputdata = (Keymap)Cpu.inb(0x60);
 		key_state[inputdata & 0x7F] = inputdata < 0x80;
 		return inputdata;
 	}

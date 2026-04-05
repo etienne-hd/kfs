@@ -34,7 +34,7 @@ subdir('lib')
 
 sources = files(
   'boot.s',
-  'vapi/helper.vapi',
+  'vapi/cpu.vapi',
 )
 
 subdir('src')
