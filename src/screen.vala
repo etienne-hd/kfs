@@ -4,6 +4,8 @@ struct Vga : uint16 {
 	public const uint16 HEIGHT = 25;
 }
 
+
+
 namespace Screen {
 	namespace Cursor {
 		public static void set_position (uint16 pos) {
@@ -44,8 +46,8 @@ namespace Screen {
 
 	void clear () {
 		Cursor.set_position (0);
-		for (uint16 i = 0; i < Vga.HEIGHT * Vga.WIDTH; i++) {
-			print_char(' ', Color.pack(WHITE, BLACK), i);
-		}
+		var color = Color.pack(WHITE, BLACK);
+		uint16 c = ' ' | (color << 8);
+		Memory.setword(buffer, c, Vga.WIDTH * Vga.HEIGHT);
 	}
 }

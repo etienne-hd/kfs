@@ -295,6 +295,8 @@ namespace Posix {
 		public void* chr(void* mem, int byte, size_t n);
 		[CCode (cname = "memset")]
 		public void* set(void *s, int c, size_t n);
+		[CCode (cname = "memsetw")]
+		public void* setword(void *s, uint16 c, size_t n);
 		[CCode (cname = "memcpy")]
 		public void *cpy(void *dest, void *src, size_t n);
 		[CCode (cname = "bzero")]

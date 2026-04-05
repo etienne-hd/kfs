@@ -6,4 +6,5 @@ sources_slibc += files(
   'memcpy.c',
   'memmove.c',
   'memset.c',
+  'memsetw.vala'
 )
