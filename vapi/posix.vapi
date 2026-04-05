@@ -51,9 +51,6 @@ public struct bool {
 [CCode (cname = "char", default_value = "\'\\0\'")]
 [IntegerType (rank = 2, min = 0, max = 127)]
 public struct char {
-	public inline string to_string () {
-		return "%c".printf (this);
-	}
 	[CCode (cname = "isalnum")]
 	public char is_alnum ();
 	[CCode (cname = "isalpha")]
@@ -75,9 +72,6 @@ public struct char {
 [CCode (cname = "unsigned char", default_value = "\'\\0\'")]
 [IntegerType (rank = 3, min = 0, max = 255)]
 public struct uchar {
-	public inline string to_string () {
-		return "%hhu".printf (this);
-	}
 	[CCode (cname = "isalnum")]
 	public uchar is_alnum ();
 	[CCode (cname = "isalpha")]
@@ -99,65 +93,41 @@ public struct uchar {
 [CCode (cname = "int", default_value = "0")]
 [IntegerType (rank = 6)]
 public struct int {
-	public inline string to_string () {
-		return "%d".printf (this);
-	}
 }
 
 [CCode (cname = "unsigned int", default_value = "0U")]
 [IntegerType (rank = 7)]
 public struct uint {
-	public inline string to_string () {
-		return "%u".printf (this);
-	}
 }
 
 [CCode (cname = "short", default_value = "0")]
 [IntegerType (rank = 4, min = -32768, max = 32767)]
 public struct short {
-	public inline string to_string () {
-		return "%hi".printf (this);
-	}
 }
 
 [CCode (cname = "unsigned short", default_value = "0U")]
 [IntegerType (rank = 5, min = 0, max = 65535)]
 public struct ushort {
-	public inline string to_string () {
-		return "%hu".printf (this);
-	}
 }
 
 [CCode (cname = "long", default_value = "0L")]
 [IntegerType (rank = 8)]
 public struct long {
-	public inline string to_string () {
-		return "%li".printf (this);
-	}
 }
 
 [CCode (cname = "unsigned long", default_value = "0UL")]
 [IntegerType (rank = 9)]
 public struct ulong {
-	public inline string to_string () {
-		return "%lu".printf (this);
-	}
 }
 
 [CCode (cname = "size_t", cheader_filename = "stddef.h", default_value = "0UL")]
 [IntegerType (rank = 9)]
 public struct size_t {
-	public inline string to_string () {
-		return "%zu".printf (this);
-	}
 }
 
 [CCode (cname = "ssize_t", cheader_filename = "stddef.h", default_value = "0L")]
 [IntegerType (rank = 8)]
 public struct ssize_t {
-	public inline string to_string () {
-		return "%zi".printf (this);
-	}
 }
 
 [CCode (cname = "int8_t", cheader_filename = "stdint.h", default_value = "0")]
@@ -173,12 +143,6 @@ public struct uint8 {
 [CCode (cname = "int16_t", cheader_filename = "stdint.h", default_value = "0")]
 [IntegerType (rank = 4, min = -32768, max = 32767)]
 public struct int16 {
-	[CCode (cname = "PRIi16", cheader_filename = "inttypes.h")]
-	public const string FORMAT;
-
-	public inline string to_string () {
-		return ("%" + FORMAT).printf (this);
-	}
 }
 
 [CCode (cname = "uint16_t", cheader_filename = "stdint.h", default_value = "0U")]
@@ -216,13 +180,6 @@ public struct float {
 public struct double {
 }
 
-[CCode (cheader_filename = "time.h")]
-[IntegerType (rank = 8)]
-public struct time_t {
-	[CCode (cname = "time")]
-	public time_t (time_t? tloc = null);
-}
-
 [SimpleType]
 [CCode (cheader_filename = "stdarg.h", cprefix = "va_", has_type_id = false, destroy_function = "va_end", lvalue_access = false)]
 public struct va_list {
@@ -238,34 +195,61 @@ public struct va_list {
 [Immutable]
 [CCode (cname = "char", const_cname = "const char", free_function = "free", cheader_filename = "libft.h")]
 public class string {
-	[PrintfFormat]
-	public string printf (...);
+	// [PrintfFormat]
+	// public string printf (...);
 
-	public string concat (...) {
-		string result = this;
-		var l = va_list ();
-		while (true) {
-			unowned string? arg = l.arg ();
-			if (arg == null) {
-				break;
-			} else {
-				result += arg;
-			}
-		}
-		return result;
+	// public string concat (...) {
+		// string result = this;
+		// var l = va_list ();
+		// while (true) {
+			// unowned string? arg = l.arg ();
+			// if (arg == null) {
+				// break;
+			// } else {
+				// result += arg;
+			// }
+		// }
+		// return result;
+	// }
+
+    [CCode (cname="vala_string_has_prefix")]
+	public bool has_prefix (string prefix) {
+		return strncmp (this, prefix, prefix.size) == 0;
 	}
 
-    [CCode (cname="strcmp")]
-    public void compare(string cmp);
+	[CCode (cname="vala_string_has_suffix")]
+	public bool has_suffix (string suffix) {
+		char* self = (char*)this;
+		return strncmp (self + size - suffix.size, suffix, suffix.size) == 0;
+	}
 
-	[CCode (cname="strstr")]
-    public bool contains(string cmp);
+	[CCode (cname="vala_string_index_of")]
+	public int index_of (string needle) {
+		char* self = (char*)this;
+		char* found = strstr (self, needle);
+		if (found == null) {
+			return -1;
+		} else {
+			return (int) (found - self);
+		}
+	}
 
+    [CCode (cname="vala_string_compare")]
+    public bool compare (string cmp) {
+		return strcmp (this, cmp) == 0;
+	}
+
+	[CCode (cname="vala_string_contains")]
+	public bool contains (string cmp) {
+		return strstr (this, cmp) != null;
+	}
+
+	[CCode (cname="vala_string_to_string")]
 	public inline unowned string to_string () {
 		return this;
 	}
 
-
+	[CCode (cname="vala_string_get")]
     public char get(int index) {
         char *self = (char*)this;
         return self[index]; 
@@ -277,6 +261,20 @@ public class string {
 	}
 }
 
+[CCode (cname="strncmp")]
+public static int strncmp(char *s1, char *s2, size_t n);
+[CCode (cname="strchr")]
+public static char *strchr(char *s, int c);
+[CCode (cname="strstr")]
+public static char *strstr(char *haystack, char *needle);
+[CCode (cname="strcmp")]
+public static int strcmp(char *s1, char *s2);
+[CCode (cname="atoi")]
+public static int atoi(char *str);
+[CCode (cname="strcat")]
+public static char *strcat(char *dest, char *src);
+[CCode (cname="strcpy")]
+public static char *strcpy(char *dest, char *src);
 // [CCode (cname="printf", cheader_filename = "stdio.h")]
 // [PrintfFormat]
 // public void print (string format,...);
