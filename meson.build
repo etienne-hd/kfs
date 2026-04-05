@@ -33,6 +33,7 @@ subdir('lib')
 sources = files(
   'boot.s', # Meson reconnaît l'extension .s
   'kernel.vala',
+  'screen.vala',
 )
 
 # Définition du noyau
