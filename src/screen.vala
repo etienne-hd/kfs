@@ -8,13 +8,13 @@ namespace Screen {
 	private Vga *buffer = (Vga*)Vga.MEMORY;
 	private uint cursor = 0;
 
-	void print_char (char c, uint8 color = Color.pack(WHITE, BLACK), size_t index = -1) {
+	void print_char (char c, Color color = Color.pack(WHITE, BLACK), size_t index = -1) {
 		if (index == -1)
 			index = cursor++;
 		buffer[index] = c | (color << 8);
 	}
 
-	void print (string s, uint8 color = Color.pack(WHITE, BLACK), size_t index = -1) {
+	void print (string s, Color color = Color.pack(WHITE, BLACK), size_t index = -1) {
 		foreach (char c in s) {
 			if (index == -1)
 				print_char(c, color, index);
