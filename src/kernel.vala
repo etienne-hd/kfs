@@ -4,6 +4,7 @@ void main() {
 	Screen.clear();
 	const string text = "kfs #1 - 42";
 	Screen.print(text, Color.pack(WHITE, CYAN), Vga.HEIGHT * Vga.WIDTH / 2 - text.size / 2);
+	Screen.print_int(6767, Color.pack(RED, WHITE), 123);
 
 	Keyboard.Keymap value = Keyboard.get_key();
 	while (true)
