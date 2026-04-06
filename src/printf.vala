@@ -21,7 +21,6 @@ private enum FormatFlag {
 private int handle_int (uint8* dest, int v) {
 	uint8 buffer_tmp[11];
 	int index = 10;
-	uint value;
 	uint nbr;
 	bool is_neg;
 
@@ -43,9 +42,10 @@ private int handle_int (uint8* dest, int v) {
 		--index;
 	} while (nbr > 0);
 
-	if (is_neg)
-		buffer_tmp[index--] = '-';
-
+	if (is_neg) {
+		buffer_tmp[index] = '-';
+		index--;
+	}
 	int start = index + 1;
 	int size = 11 - start;
 	Memory.cpy(dest, (uint8*)buffer_tmp + start, size);
@@ -59,7 +59,6 @@ public void sprintf(uint8[] buffer, string format, ...) {
 }
 
 public void vsprintf(uint8[] buffer, string format, va_list list) {
-	uint8* base_ptr = (uint8*)buffer;
     int begin = 0;
 
 	unowned string ptr = format;
