@@ -16,75 +16,19 @@ namespace Screen {
 	}
 
 	private Vga *buffer = (Vga*)Vga.MEMORY;
-	private uint cursor = 0;
-
-	void print_char (char c, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
-		if (c == '\n' && cursor_index == -1)
-		{
-			cursor = cursor - (cursor % Vga.WIDTH) + Vga.WIDTH;
-			Cursor.set_position ((uint16)cursor);
-			return ;
-		}
-		if (cursor_index == -1) {
-			cursor_index = cursor++;
-			Cursor.set_position ((uint16)cursor);
-		}
-		buffer[cursor_index] = c | (color << 8);
+	
+	void put_char(uint8 c, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK)) {
+		buffer[pos % (Vga.WIDTH * Vga.HEIGHT)] = c | (color << 8);
 	}
 
-	void print (string s, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
-		uint cursor_save = cursor;
-		if (cursor_index != -1)
-			cursor = cursor_index;
-		foreach (char c in s) {
-			print_char(c, color);
-		}
-		if (cursor_index == -1)
-			Cursor.set_position ((uint16)cursor);
-		if (cursor_index != -1)
-			cursor = cursor_save;
+	void put_string(string s, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK))
+	{
+		foreach (char c in s)
+			put_char (c, pos++, color);
 	}
 
-	void print_int (int value, Color color = Color.pack(WHITE, BLACK), uint cursor_index = -1) {
-		char buffer[12];
-		int index = 11;
-		bool is_neg = value < 0;
-		int res;
-
-		uint cursor_save = cursor;
-		if (cursor_index != -1)
-			cursor = cursor_index;
-
-		if (is_neg)
-			value *= -1;
-		buffer[index--] = 0;
-		if (value == 0)
-			buffer[index] = '0';
-		else {
-			while (value != 0) {
-				res = (value / 10);
-				buffer[index] = (char)((value - (res * 10)) + '0');
-				value = res;
-				if (value != 0)
-					index--;
-			}
-		}
-		if (is_neg) {
-			index--;
-			buffer[index] = '-';
-		}
-		print((string)&buffer[index], color);
-
-		if (cursor_index == -1)
-			Cursor.set_position ((uint16)cursor);
-		if (cursor_index != -1)
-			cursor = cursor_save;
-	}
-
-	void clear () {
-		Cursor.set_position (0);
-		var color = Color.pack(WHITE, BLACK);
-		uint16 c = ' ' | (color << 8);
+	public void clear () {
+		uint16 c = ' ' | (Color.pack(WHITE, BLACK) << 8);
 		Memory.setword(buffer, c, Vga.WIDTH * Vga.HEIGHT);
 	}
 }
