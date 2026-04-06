@@ -31,8 +31,12 @@ void main() {
 				Screen.put_char(c, Profile.profiles_cursor[current_profile] + Vga.WIDTH);
 		}
 
+		// Backspace / Delete
 		if (key == Keymap.KEY_BACKSPACE && Profile.profiles_cursor[current_profile] != 0) {
 			Screen.put_char(' ', Profile.profiles_cursor[current_profile] + Vga.WIDTH - 1);
+		}
+		else if (key == Keymap.KEY_DELETE) {
+			Screen.put_char(' ', Profile.profiles_cursor[current_profile] + Vga.WIDTH);
 		}
 
 		// Arrow

@@ -27,7 +27,7 @@ namespace Keyboard {
 		KEY_F5 = 0x3F, KEY_F6 = 0x40, KEY_F7 = 0x41, KEY_F8 = 0x42,
 		KEY_F9 = 0x43, KEY_F10 = 0x44, KEY_F11 = 0x57, KEY_F12 = 0x58,
 
-		KEY_PAGE_DOWN = 0x51, KEY_PAGE_UP = 0x49;
+		KEY_PAGE_DOWN = 0x51, KEY_PAGE_UP = 0x49, KEY_DELETE = 0x53;
 
 
 		public static char get_char(Keymap key) {
