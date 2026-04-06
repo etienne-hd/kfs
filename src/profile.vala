@@ -13,7 +13,7 @@ namespace Profile {
 	uint16 profiles_cursor[PROFILE_COUNT];
 
 	void init_profiles() {
-		char buffer[64];
+		char buffer[32];
 		memsetw(profiles_buffer, ' ' | Color.pack(WHITE, BLACK) << 8 , Vga.HEIGHT * Vga.WIDTH * PROFILE_COUNT);
 		for (uint profile = 0; profile < PROFILE_COUNT; profile++) {
 			profiles_cursor[profile] = 0;
