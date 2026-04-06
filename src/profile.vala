@@ -20,7 +20,7 @@ namespace Profile {
 			for (uint i = 0; i < Vga.WIDTH; i++) {
 				profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile + i] = ' ' | Color.pack(WHITE, LIGHT_RED) << 8;
 			}
-			sprintf(buffer, "42 - Profile #%d", profile);
+			sprintf(buffer, "42 - Screen #%d", profile);
 			for (uint i = 0; buffer[i] != '\0'; i++) {
 				profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile + i  + (Vga.WIDTH / 2 - ((string)buffer).length / 2)] = buffer[i] | Color.pack(WHITE, LIGHT_RED) << 8;
 			}
