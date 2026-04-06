@@ -26,13 +26,17 @@ void main() {
 		char c = Keymap.get_char(key);
 		if (c != 0 && key != Keymap.KEY_ENTER) {
 			if (c >= 'a' && c <= 'z' && Keyboard.key_state[Keymap.KEY_SHIFT])
-				Screen.put_char(c - 32, Profile.profiles_cursor[current_profile] + Vga.WIDTH, Color.pack(WHITE, BLACK));
+				Screen.put_char(c - 32, Profile.profiles_cursor[current_profile] + Vga.WIDTH);
 			else
-				Screen.put_char(c, Profile.profiles_cursor[current_profile] + Vga.WIDTH, Color.pack(WHITE, BLACK));
+				Screen.put_char(c, Profile.profiles_cursor[current_profile] + Vga.WIDTH);
+		}
+
+		if (key == Keymap.KEY_BACKSPACE && Profile.profiles_cursor[current_profile] != 0) {
+			Screen.put_char(' ', Profile.profiles_cursor[current_profile] + Vga.WIDTH - 1);
 		}
 
 		// Arrow
-		if (key == Keymap.KEY_LEFT && Profile.profiles_cursor[current_profile] != 0) {
+		if ((key == Keymap.KEY_BACKSPACE || key == Keymap.KEY_LEFT) && Profile.profiles_cursor[current_profile] != 0) {
 			Profile.update_cursor(current_profile, Profile.profiles_cursor[current_profile] - 1);
 		}
 		else if ((c != 0 || key == Keymap.KEY_RIGHT) && Profile.profiles_cursor[current_profile] + 1 < (Vga.HEIGHT - 1) * Vga.WIDTH) {
