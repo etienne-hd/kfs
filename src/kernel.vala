@@ -2,15 +2,15 @@ using Keyboard;
 
 void main() {
 	Profile.init_profiles();
-	Profile.load_profile(0);
-
 	uint8 current_profile = 0;
+	Profile.load_profile(current_profile);
+
 	char key = get_key();
 	while (true) {
-		char tmp = get_key();
-		if (tmp == key)
+		char tmp_key = get_key();
+		if (tmp_key == key)
 			continue;
-		key = tmp;
+		key = tmp_key;
 
 		// Check if the key is mapped to a profile
 		for (uint8 profile = 0; profile < PROFILE_COUNT; profile++) {
