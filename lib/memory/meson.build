@@ -1,10 +1,9 @@
-
 sources_slibc += files(
-  'bzero.c',
-  'memchr.c',
-  'memcmp.c',
-  'memcpy.c',
-  'memmove.c',
-  'memset.c',
+  'bzero.vala',
+  'memchr.vala',
+  'memcmp.vala',
+  'memcpy.vala',
+  'memmove.vala',
+  'memset.vala',
   'memsetw.vala'
 )

@@ -31,8 +31,6 @@ inline static size_t	high_mask(void)
 }
 
 int atoi(const char *str);
-void bzero(void *s, size_t n);
-void* calloc(size_t nmemb, size_t size) ;
 void free(void* ptr) ;
 int isalnum(int c);
 int isalpha(int c);
@@ -41,11 +39,6 @@ int isdigit(int c);
 int isprint(int c);
 int isspace(char c);
 void* malloc(size_t nmemb) ;
-void *memchr(const void *mem, int byte, size_t n);
-int memcmp(const void *s1, const void *s2, size_t n);
-void *memcpy(void *dest, const void *src, size_t n);
-void *memmove(void *dest, const void *src, size_t n);
-void *memset(void *s, int c, size_t n);
 char *strcat(char *dest, const char *src);
 char *strchr(const char *s, int c);
 int strcmp(const char *s1, const char *s2);

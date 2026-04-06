@@ -1,6 +1,4 @@
-#include "libft.h"
-
-inline static void	copy_blocks(size_t **d, size_t **s, size_t *n)
+private inline void	copy_blocks(size_t **d, size_t **s, size_t *n)
 {
 	size_t	*ptr_d;
 	size_t	*ptr_s;
@@ -29,22 +27,24 @@ inline static void	copy_blocks(size_t **d, size_t **s, size_t *n)
 	*n = remain;
 }
 
-void	*memcpy(void *dest, const void *src, size_t n)
+public void	*memcpy(void *dest, void *src, size_t n)
 {
-	t_uchar	*d;
-	t_uchar	*s;
+	uchar	*d;
+	uchar	*s;
 
-	d = (t_uchar *)dest;
-	s = (t_uchar *)src;
-	if (!dest && !src)
-		return (NULL);
-	while (n > 0 && ((uintptr_t)d & (sizeof(size_t) - 1)))
+	d = (uchar *)dest;
+	s = (uchar *)src;
+	if (dest == null && src == null)
+		return (null);
+	while (n > 0 && ((uintptr)d & (sizeof(size_t) - 1)) != 0)
 	{
 		*d++ = *s++;
 		--n;
 	}
 	copy_blocks((size_t **)&d, (size_t **)&s, &n);
-	while (n--)
+	while (n > 0) {
 		*d++ = *s++;
+		--n;
+	}
 	return (dest);
 }
