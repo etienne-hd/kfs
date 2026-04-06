@@ -217,18 +217,18 @@ public class string {
 		// return result;
 	// }
 
-    [CCode (cname="vala_string_has_prefix")]
+    [CCode (cname = "vala_string_has_prefix")]
 	public bool has_prefix (string prefix) {
 		return strncmp (this, prefix, prefix.size) == 0;
 	}
 
-	[CCode (cname="vala_string_has_suffix")]
+	[CCode (cname = "vala_string_has_suffix")]
 	public bool has_suffix (string suffix) {
 		char* self = (char*)this;
 		return strncmp (self + size - suffix.size, suffix, suffix.size) == 0;
 	}
 
-	[CCode (cname="vala_string_index_of")]
+	[CCode (cname = "vala_string_index_of")]
 	public int index_of (string needle) {
 		char* self = (char*)this;
 		char* found = strstr (self, needle);
@@ -239,7 +239,13 @@ public class string {
 		}
 	}
 
-	[CCode (cname="strchr")]
+	[CCode (cname = "vala_string_offset")]
+	public inline unowned string offset (int offset) {
+		char* self = (char*)this;
+		return (string)(self + offset);
+	}
+
+	[CCode (cname = "vala_string_index_of_char")]
 	public int index_of_char (char needle) {
 		char* self = (char*)this;
 		char* found = strchr (self, needle);
@@ -250,29 +256,29 @@ public class string {
 		}
 	}
 
-	[CCode (cname="strstr")]
+	[CCode (cname = "strstr")]
 	public unowned string? find (string needle);
 
-	[CCode (cname="strchr")]
+	[CCode (cname = "strchr")]
 	public unowned string? find_char (char needle);
 	
 
-    [CCode (cname="vala_string_compare")]
+    [CCode (cname = "vala_string_compare")]
     public bool compare (string cmp) {
 		return strcmp (this, cmp) == 0;
 	}
 
-	[CCode (cname="vala_string_contains")]
+	[CCode (cname = "vala_string_contains")]
 	public bool contains (string cmp) {
 		return strstr (this, cmp) != null;
 	}
 
-	[CCode (cname="vala_string_to_string")]
+	[CCode (cname = "vala_string_to_string")]
 	public inline unowned string to_string () {
 		return this;
 	}
 
-	[CCode (cname="vala_string_get")]
+	[CCode (cname = "vala_string_get")]
     public char get(int index) {
         char *self = (char*)this;
         return self[index]; 
@@ -287,21 +293,28 @@ public class string {
 		[CCode (cname = "strlen")]
 		get;
 	}
+
+	public unowned uint8[] data{
+		[CCode (cname = "vala_string_data")]
+		get {
+			return (uint8[])this;
+		}
+	}
 }
 
-[CCode (cname="strncmp")]
+[CCode (cname = "strncmp")]
 public static int strncmp(char *s1, char *s2, size_t n);
-[CCode (cname="strchr")]
+[CCode (cname = "strchr")]
 public static char *strchr(char *s, int c);
-[CCode (cname="strstr")]
+[CCode (cname = "strstr")]
 public static char *strstr(char *haystack, char *needle);
-[CCode (cname="strcmp")]
+[CCode (cname = "strcmp")]
 public static int strcmp(char *s1, char *s2);
-[CCode (cname="atoi")]
+[CCode (cname = "atoi")]
 public static int atoi(char *str);
-[CCode (cname="strcat")]
+[CCode (cname = "strcat")]
 public static char *strcat(char *dest, char *src);
-[CCode (cname="strcpy")]
+[CCode (cname = "strcpy")]
 public static char *strcpy(char *dest, char *src);
 // [CCode (cname="printf", cheader_filename = "stdio.h")]
 // [PrintfFormat]

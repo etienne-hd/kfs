@@ -1,76 +1,96 @@
-char *handle_int(char *buffer, int v) {
-	int64 value = v;
-	char buffer_tmp[12];
-	uint index = 11;
-	bool is_neg = value < 0;
+private enum FormatFlag {
+	NONE,
+	PERCENT,
+	String,
+	Integer;
 
-	if (is_neg)
-		value *= -1;
-	buffer_tmp[index--] = 0;
-	if (value == 0)
-		buffer_tmp[index] = '0';
-	else {
-		while (value != 0) {
-			int64 p = value / 10;
-			buffer_tmp[index] = (char)(value - (p * 10)) + '0';
-			value = p;
-			if (value != 0)
-				index--;
+
+	public static FormatFlag from_string(string s) {
+		char c1 = s[0];
+		switch (c1) {
+			case 's':
+				return FormatFlag.String;
+			case 'd':
+				return FormatFlag.Integer;
+			default:
+				return FormatFlag.NONE;
 		}
 	}
+}
+
+private int handle_int (uint8* dest, int v) {
+	uint8 buffer_tmp[11];
+	int index = 10;
+	uint value;
+	uint nbr;
+	bool is_neg;
+
+	// Handle negative value
+	if (v < 0) {
+		is_neg = true;
+		nbr = (uint)(-v);
+	}
+	else {
+		is_neg = false;
+		nbr = (uint)v;
+	}
+
+	// Handle number
+	do {
+		uint q = nbr / 10;
+		buffer_tmp[index] = (char)((nbr - q * 10) + '0');
+		nbr = q;
+		--index;
+	} while (nbr > 0);
+
 	if (is_neg)
-	{
-		index--;
-		buffer_tmp[index] = '-';
-	}
-	for (; index < 11; index++)
-	{
-		*buffer = buffer_tmp[index];
-		buffer++;
-	}
-	return buffer;
+		buffer_tmp[index--] = '-';
+
+	int start = index + 1;
+	int size = 11 - start;
+	Memory.cpy(dest, (uint8*)buffer_tmp + start, size);
+	return size;
 }
 
-char *handle_str(char *buffer, char *s) {
-	while (*s != '\0') {
-		*buffer = *s;
-		buffer++;
-		s++;
-	}
-	return buffer;
-}
-
-[CCode (sentinel = "")]
-void sprintf(char *buffer, char *format, ...) {
+[PrintfFormat]
+public void sprintf(uint8[] buffer, string format, ...) {
 	va_list list = va_list();
 	vsprintf(buffer, format, list);
 }
 
-[CCode (sentinel = "")]
-void vsprintf(char *buffer, char *format, va_list list) {
-	const string flags[] = {
-		"%s", "%d", null
-	};
+public void vsprintf(uint8[] buffer, string format, va_list list) {
+	uint8* base_ptr = (uint8*)buffer;
+    int begin = 0;
 
-	for (uint i = 0; format[i] != '\0'; i++) {
-		bool is_found = false;
-		if (format[i] == '%') {
-			for (uint j = 0; flags[j] != null; j++) {
-				if (strncmp(&format[i], flags[j], flags[j].size) == 0) {
-					if (flags[j] == "%s")
-						buffer = handle_str(buffer, list.arg());
-					else if (flags[j] == "%d")
-					buffer = handle_int(buffer, list.arg());
-					i += (flags[j].size - 1);
-					is_found = true;
-					break;
-				}
+	unowned string ptr = format;
+
+	while (true) {
+		int index = ptr.index_of_char('%');
+		// No more format (end of string)
+		if (index == -1) {
+			Memory.cpy(((string)(buffer)).offset(begin), ptr, ptr.size);
+			break;
+		}
+		// Format
+		Memory.cpy(((string)(buffer)).offset(begin), ptr, index);
+		begin += index;
+		ptr = ptr.offset(index);
+		FormatFlag flag = FormatFlag.from_string(ptr.offset(1));
+		switch (flag) {
+			case FormatFlag.String:
+				unowned string s = list.arg();
+				Memory.cpy(((string)(buffer)).offset(begin), s, s.size);
+				begin += s.size;
+				break;
+			case FormatFlag.Integer:
+				int v = list.arg();
+				begin += handle_int((uint8[])((uint8*)buffer + begin), v);
+				break;
+			default:
+				Memory.cpy(((string)(buffer)).offset(begin), ptr, 1);
+				begin++;
+				break;
 			}
-		}
-		if (!is_found) {
-			*buffer = format[i];
-			buffer++;
-		}
+		ptr = ptr.offset(2); // 2 characters for format (ex: %s) TODO : handle more complex format (ex: %zu)
 	}
-	*buffer = 0;
 }
