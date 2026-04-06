@@ -1,4 +1,4 @@
-void kernel_panic(string message) {
+public void kernel_panic(string message) {
 	for (uint i = 0; i < Vga.WIDTH * Vga.HEIGHT; i++) {
 		uint16 c;
 		if (i % 2 == 1)
