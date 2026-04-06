@@ -239,6 +239,24 @@ public class string {
 		}
 	}
 
+	[CCode (cname="strchr")]
+	public int index_of_char (char needle) {
+		char* self = (char*)this;
+		char* found = strchr (self, needle);
+		if (found == null) {
+			return -1;
+		} else {
+			return (int) (found - self);
+		}
+	}
+
+	[CCode (cname="strstr")]
+	public unowned string? find (string needle);
+
+	[CCode (cname="strchr")]
+	public unowned string? find_char (char needle);
+	
+
     [CCode (cname="vala_string_compare")]
     public bool compare (string cmp) {
 		return strcmp (this, cmp) == 0;
@@ -259,6 +277,11 @@ public class string {
         char *self = (char*)this;
         return self[index]; 
     }
+
+	public int length{
+		[CCode (cname = "strlen")]
+		get;
+	}
 
 	public int size {
 		[CCode (cname = "strlen")]
