@@ -19,7 +19,14 @@ namespace Keyboard {
 		KEY_SPACE = 0x39, KEY_ENTER = 0x1C, KEY_BACKSPACE = 0x0E,
 		KEY_TAB = 0x0F, KEY_ESC = 0x01, KEY_CAPSLOCK = 0x3A,
 
-		KEY_SHIFT = 0x2A, KEY_CTRL = 0x1D, KEY_ALT = 0x38;
+		KEY_SHIFT = 0x2A, KEY_CTRL = 0x1D, KEY_ALT = 0x38,
+
+		KEY_LEFT = 0x4B, KEY_RIGHT = 0x4D, KEY_UP = 0x48, KEY_DOWN = 0x50,
+		
+		KEY_F1 = 0x5F, KEY_F2 = 0x3C, KEY_F3 = 0x3D, KEY_F4 = 0x3E,
+		KEY_F5 = 0x3F, KEY_F6 = 0x40, KEY_F7 = 0x41, KEY_F8 = 0x42,
+		KEY_F9 = 0x43, KEY_F10 = 0x44, KEY_F11 = 0x57, KEY_F12 = 0x58;
+
 
 		public static char get_char(Keymap key) {
 			switch (key) {
