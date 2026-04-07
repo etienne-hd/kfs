@@ -11,4 +11,8 @@ public void kernel_panic(string message) {
 	const string kernel_panic_text = "KERNEL PANIC!";
 	Vga.Screen.put_string(kernel_panic_text, Vga.WIDTH * (Vga.HEIGHT - 2) / 2 - kernel_panic_text.size / 2, Color.pack(BLACK, WHITE));
 	Vga.Screen.put_string(message, Vga.WIDTH * Vga.HEIGHT / 2 - message.size / 2, Color.pack(WHITE, BLACK));
+	Cpu.cli();
+	while (true) {
+		Cpu.hlt();
+	}
 }
