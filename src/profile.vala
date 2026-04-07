@@ -8,37 +8,37 @@ const uint8 PROFILES[] = {
 	Keymap.KEY_F4,
 };
 
-namespace Profile {
-	uint16 profiles_buffer[Vga.HEIGHT * Vga.WIDTH * PROFILE_COUNT];
-	uint16 profiles_cursor[PROFILE_COUNT];
+struct Profile {
+	uint id;
+	uint16 buffer[Vga.HEIGHT * Vga.WIDTH];
+	uint16 cursor;
 
-	void init_profiles() {
-		uint8 buffer[32];
-		memsetw(profiles_buffer, ' ' | Color.pack(WHITE, BLACK) << 8 , Vga.HEIGHT * Vga.WIDTH * PROFILE_COUNT);
-		for (int profile = 0; profile < PROFILE_COUNT; profile++) {
-			profiles_cursor[profile] = 0;
-			for (uint i = 0; i < Vga.WIDTH; i++) {
-				profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile + i] = ' ' | Color.pack(WHITE, LIGHT_RED) << 8;
-			}
-			sprintf(buffer, "42 - Screen #%d", profile);
-			for (uint i = 0; buffer[i] != '\0'; i++) {
-				profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile + i  + (Vga.WIDTH / 2 - ((string)buffer).length / 2)] = buffer[i] | Color.pack(WHITE, LIGHT_RED) << 8;
-			}
+	public Profile(uint id) {
+		this.id = id;
+		this.cursor = 0;
+		
+		memsetw(this.buffer, ' ' | Color.pack(WHITE, BLACK) << 8 , Vga.HEIGHT * Vga.WIDTH);
+		for (uint i = 0; i < Vga.WIDTH; i++) {
+			this.buffer[Vga.HEIGHT * Vga.WIDTH + i] = ' ' | Color.pack(WHITE, LIGHT_RED) << 8;
+		}
+		uint8 fortnite[32];
+		sprintf(fortnite, "42 - Screen #%d", (int)id);
+		for (uint i = 0; buffer[i] != '\0'; i++) {
+			this.buffer[Vga.HEIGHT * Vga.WIDTH + i + (Vga.WIDTH / 2 - ((string)fortnite).length / 2)] = buffer[i] | Color.pack(WHITE, LIGHT_RED) << 8;
 		}
 	}
 
-	void load_profile(uint8 profile) {
-		update_cursor(profile, profiles_cursor[profile]);
-		Memory.cpy(Screen.buffer,  &profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile], Vga.HEIGHT * Vga.WIDTH * 2);
-	}
-
-	void save_profile(uint8 profile) {
-		Memory.cpy(&profiles_buffer[Vga.HEIGHT * Vga.WIDTH * profile], Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
-	}
-
-	void update_cursor(uint8 profile, uint16 position) {
-		profiles_cursor[profile] = position;
+	public void update_cursor(uint16 position) {
+		this.cursor = position;
 		Screen.Cursor.set_position(position + Vga.WIDTH);
 	}
 
+	public void load() {
+		update_cursor(this.cursor);
+		Memory.cpy(Screen.buffer,  &this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+	}
+
+	public void save() {
+		Memory.cpy(&this.buffer,  Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+	}
 }
