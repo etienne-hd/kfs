@@ -1,12 +1,10 @@
 using Keyboard;
 
 void main() {
-	Profile profiles[4] = {
-		Profile(1),
-		Profile(2),
-		Profile(3),
-		Profile(4),
-	};
+	Profile profiles[4];
+	for (uint profile = 0; profile < 4; profile++) {
+		profiles[profile].init(profile);
+	}
 	uint8 current_profile = 0;
 	profiles[0].load();
 

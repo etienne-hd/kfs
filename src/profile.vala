@@ -13,18 +13,16 @@ struct Profile {
 	uint16 buffer[Vga.HEIGHT * Vga.WIDTH];
 	uint16 cursor;
 
-	public Profile(uint id) {
+	public void init(uint id) {
 		this.id = id;
 		this.cursor = 0;
 		
-		memsetw(this.buffer, ' ' | Color.pack(WHITE, BLACK) << 8 , Vga.HEIGHT * Vga.WIDTH);
-		for (uint i = 0; i < Vga.WIDTH; i++) {
-			this.buffer[Vga.HEIGHT * Vga.WIDTH + i] = ' ' | Color.pack(WHITE, LIGHT_RED) << 8;
-		}
-		uint8 fortnite[32];
-		sprintf(fortnite, "42 - Screen #%d", (int)id);
-		for (uint i = 0; buffer[i] != '\0'; i++) {
-			this.buffer[Vga.HEIGHT * Vga.WIDTH + i + (Vga.WIDTH / 2 - ((string)fortnite).length / 2)] = buffer[i] | Color.pack(WHITE, LIGHT_RED) << 8;
+		memsetw(&this.buffer[Vga.WIDTH], ' ' | Color.pack(WHITE, BLACK) << 8 , (Vga.HEIGHT - 1) * Vga.WIDTH);
+		memsetw(this.buffer, ' ' | Color.pack(WHITE, LIGHT_RED) << 8 , Vga.WIDTH);
+		uint8 title[32];
+		sprintf(title, "42 - Screen #%d", (int)id);
+		for (uint i = 0; title[i] != '\0'; i++) {
+			this.buffer[i + (Vga.WIDTH / 2 - ((string)title).length / 2)] = title[i] | Color.pack(WHITE, LIGHT_RED) << 8;
 		}
 	}
 
@@ -35,10 +33,10 @@ struct Profile {
 
 	public void load() {
 		update_cursor(this.cursor);
-		Memory.cpy(Screen.buffer,  &this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+		Memory.cpy(Screen.buffer,  this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
 	}
 
 	public void save() {
-		Memory.cpy(&this.buffer,  Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+		Memory.cpy(this.buffer,  Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
 	}
 }
