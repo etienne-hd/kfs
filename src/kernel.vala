@@ -10,6 +10,7 @@ const uint8 PROFILES[] = {
 
 void main() {
 	Serial.print ("Kernel started\n");
+	Screen.Cursor.enable_cursor();
 	Profile profiles[PROFILE_COUNT];
 	for (uint profile = 0; profile < 4; profile++) {
 		profiles[profile].init(profile);

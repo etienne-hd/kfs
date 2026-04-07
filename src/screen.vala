@@ -13,6 +13,21 @@ namespace Screen {
 			Cpu.outb (0x3D4, 0x0E);
 			Cpu.outb (0x3D5, (uint8)((pos >> 8) & 0xFF));
 		}
+
+		public static void enable_cursor(uint8 cursor_start = 14, uint8 cursor_end = 15)
+		{
+			Cpu.outb(0x3D4, 0x0A);
+			Cpu.outb(0x3D5, (Cpu.inb(0x3D5) & 0xC0) | cursor_start);
+		
+			Cpu.outb(0x3D4, 0x0B);
+			Cpu.outb(0x3D5, (Cpu.inb(0x3D5) & 0xE0) | cursor_end);
+		}
+
+		public static void disable_cursor()
+		{
+			Cpu.outb(0x3D4, 0x0A);
+			Cpu.outb(0x3D5, 0x20);
+		}
 	}
 
 	private Vga *buffer = (Vga*)Vga.MEMORY;
