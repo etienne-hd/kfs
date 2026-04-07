@@ -1,13 +1,5 @@
 using Keyboard;
 
-const uint PROFILE_COUNT = 4; 
-const uint8 PROFILES[] = {
-	Keymap.KEY_F1,
-	Keymap.KEY_F2,
-	Keymap.KEY_F3,
-	Keymap.KEY_F4,
-};
-
 struct Profile {
 	uint id;
 	uint16 buffer[Vga.HEIGHT * Vga.WIDTH];

@@ -1,7 +1,15 @@
 using Keyboard;
 
+const uint PROFILE_COUNT = 4; 
+const uint8 PROFILES[] = {
+	Keymap.KEY_F1,
+	Keymap.KEY_F2,
+	Keymap.KEY_F3,
+	Keymap.KEY_F4,
+};
+
 void main() {
-	Profile profiles[4];
+	Profile profiles[PROFILE_COUNT];
 	for (uint profile = 0; profile < 4; profile++) {
 		profiles[profile].init(profile);
 	}
