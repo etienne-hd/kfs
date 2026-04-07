@@ -5,5 +5,6 @@ sources += files(
   'cpu.asm',
   'keyboard.vala',
   'assert.vala',
-  'profile.vala'
+  'profile.vala',
+  'serial_print.vala'
 )
