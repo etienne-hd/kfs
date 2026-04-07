@@ -20,15 +20,15 @@ struct Profile {
 
 	public void update_cursor(uint16 position) {
 		this.cursor = position;
-		Screen.Cursor.set_position(position + Vga.WIDTH);
+		Vga.Cursor.set_position(position + Vga.WIDTH);
 	}
 
 	public void load() {
 		update_cursor(this.cursor);
-		Memory.cpy(Screen.buffer,  this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+		Memory.cpy(Vga.Screen.buffer,  this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
 	}
 
 	public void save() {
-		Memory.cpy(this.buffer,  Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
+		Memory.cpy(this.buffer,  Vga.Screen.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
 	}
 }

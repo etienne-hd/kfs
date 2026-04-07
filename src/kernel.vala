@@ -10,7 +10,7 @@ const uint8 PROFILES[] = {
 
 void main() {
 	Serial.print ("Kernel started\n");
-	Screen.Cursor.enable();
+	Vga.Cursor.enable();
 	Profile profiles[PROFILE_COUNT];
 	for (uint profile = 0; profile < 4; profile++) {
 		profiles[profile].init(profile);
@@ -38,20 +38,20 @@ void main() {
 		// CTRL + L
 		if (Keyboard.key_state[Keymap.KEY_CTRL]) {
 			if (key == Keymap.KEY_L) {
-				Memory.setword(Screen.buffer + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH * (Vga.HEIGHT - 1));
+				Memory.setword(Vga.Screen.buffer + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH * (Vga.HEIGHT - 1));
 				profiles[current_profile].update_cursor(0);
 				continue;
 			}
 			else if (key == Keymap.KEY_X) {
 				uint16 begin_line = profiles[current_profile].cursor - profiles[current_profile].cursor % Vga.WIDTH;
 				profiles[current_profile].update_cursor(begin_line);
-				Memory.setword(Screen.buffer + begin_line + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
+				Memory.setword(Vga.Screen.buffer + begin_line + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
 				continue;
 			}
 			else if (key == Keymap.KEY_LEFT) {
 				bool found = false;
 				for (uint16 i = profiles[current_profile].cursor + Vga.WIDTH - 1; i > Vga.WIDTH; i--) {
-					uint8 c = (uint8)(Screen.buffer[i]);
+					uint8 c = (uint8)(Vga.Screen.buffer[i]);
 					if (c != ' ')
 					{
 						profiles[current_profile].update_cursor(i - Vga.WIDTH);
@@ -66,7 +66,7 @@ void main() {
 			else if (key == Keymap.KEY_RIGHT) {
 				bool found = false;
 				for (uint16 i = profiles[current_profile].cursor + Vga.WIDTH + 1; i < Vga.WIDTH * Vga.HEIGHT; i++) {
-					uint8 c = (uint8)(Screen.buffer[i]);
+					uint8 c = (uint8)(Vga.Screen.buffer[i]);
 					if (c != ' ')
 					{
 						profiles[current_profile].update_cursor(i - Vga.WIDTH);
@@ -84,17 +84,17 @@ void main() {
 		char c = Keymap.get_char(key);
 		if (c != 0 && key != Keymap.KEY_ENTER) {
 			if (c >= 'a' && c <= 'z' && Keyboard.key_state[Keymap.KEY_SHIFT])
-				Screen.put_char(c - 32, profiles[current_profile].cursor + Vga.WIDTH);
+				Vga.Screen.put_char(c - 32, profiles[current_profile].cursor + Vga.WIDTH);
 			else
-				Screen.put_char(c, profiles[current_profile].cursor + Vga.WIDTH);
+				Vga.Screen.put_char(c, profiles[current_profile].cursor + Vga.WIDTH);
 		}
 
 		// Backspace / Delete
 		if (key == Keymap.KEY_BACKSPACE && profiles[current_profile].cursor != 0) {
-			Screen.put_char(' ', profiles[current_profile].cursor + Vga.WIDTH - 1);
+			Vga.Screen.put_char(' ', profiles[current_profile].cursor + Vga.WIDTH - 1);
 		}
 		else if (key == Keymap.KEY_DELETE) {
-			Screen.put_char(' ', profiles[current_profile].cursor + Vga.WIDTH);
+			Vga.Screen.put_char(' ', profiles[current_profile].cursor + Vga.WIDTH);
 		}
 
 		// Arrow
@@ -113,8 +113,8 @@ void main() {
 
 		// Page Down
 		if (key == Keymap.KEY_PAGE_DOWN) {
-			Memory.cpy(Screen.buffer + Vga.WIDTH, Screen.buffer + Vga.WIDTH * 2,  Vga.WIDTH * (Vga.HEIGHT - 2) * 2);
-			Memory.setword(Screen.buffer + Vga.WIDTH * (Vga.HEIGHT - 1), ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
+			Memory.cpy(Vga.Screen.buffer + Vga.WIDTH, Vga.Screen.buffer + Vga.WIDTH * 2,  Vga.WIDTH * (Vga.HEIGHT - 2) * 2);
+			Memory.setword(Vga.Screen.buffer + Vga.WIDTH * (Vga.HEIGHT - 1), ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 sources += files(
   'kernel.vala',
-  'screen.vala',
+  'vga.vala',
   'color.vala',
   'cpu.asm',
   'keyboard.vala',
