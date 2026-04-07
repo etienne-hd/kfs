@@ -2,10 +2,11 @@ namespace Vga {
 	public const size_t MEMORY = 0xB8000; 
 	public const uint16 WIDTH = 80;
 	public const uint16 HEIGHT = 25;
-	public const uint16 REGISTER = 0x3D4;
-	public const uint16 VALUE = 0x3D5;
 
 	namespace Cursor {
+		public const uint16 REGISTER = 0x3D4;
+		public const uint16 VALUE = 0x3D5;
+
 		public static void set_position (uint16 pos) {
 			Cpu.outb (REGISTER, 0x0F);
 			Cpu.outb (VALUE, (uint8)(pos & 0xFF));
