@@ -14,7 +14,17 @@ namespace Screen {
 			Cpu.outb (0x3D5, (uint8)((pos >> 8) & 0xFF));
 		}
 
-		public static void enable_cursor(uint8 cursor_start = 14, uint8 cursor_end = 15)
+		public static uint16 get_position () {
+			uint16 pos = 0;
+
+			Cpu.outb (0x3D4, 0x0F);
+			pos |= Cpu.inb(0x3D5);
+			Cpu.outb (0x3D4, 0x0E);
+			pos |= ((uint16)Cpu.inb(0x3D5)) << 8;
+			return pos;
+		}
+
+		public static void enable(uint8 cursor_start = 14, uint8 cursor_end = 15)
 		{
 			Cpu.outb(0x3D4, 0x0A);
 			Cpu.outb(0x3D5, (Cpu.inb(0x3D5) & 0xC0) | cursor_start);
@@ -23,7 +33,7 @@ namespace Screen {
 			Cpu.outb(0x3D5, (Cpu.inb(0x3D5) & 0xE0) | cursor_end);
 		}
 
-		public static void disable_cursor()
+		public static void disable()
 		{
 			Cpu.outb(0x3D4, 0x0A);
 			Cpu.outb(0x3D5, 0x20);
