@@ -53,9 +53,8 @@ void main() {
 				case Keymap.KEY_LEFT:
 					current.move_left();
 					continue;
-
 				case Keymap.KEY_RIGHT:
-					current.move_left();
+					current.move_right();
 					continue;
 			}
 		}
