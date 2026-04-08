@@ -1,4 +1,4 @@
-sources_slibc = ['slib.vapi']
+sources_slibc = files('slib.vapi')
 
 subdir('char')
 subdir('memory')

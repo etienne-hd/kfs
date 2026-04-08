@@ -31,18 +31,18 @@ add_project_link_arguments([
 ], language : 'c')
 
 subdir('lib')
+subdir('kernel')
+
 
 sources = files(
   'boot.s',
-  'vapi/cpu.vapi',
+  'kernel.vala',
 )
-
-subdir('src')
 
 executable('myos.bin',
   sources,
   c_args: '-w',
-  dependencies: [dep_slib],
+  dependencies: [dep_kernel, dep_slib],
   link_depends: 'linker.ld',
   link_args : ['-T', meson.current_source_dir() + '/linker.ld'],
   install : true
