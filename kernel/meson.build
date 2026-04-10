@@ -9,10 +9,10 @@ sources_kernel = files(
   'cpu.vapi',
   'idt.asm',
   'idt.vapi',
-  'idt.vala'
+  'idt.vala',
 )
 
-includes_kernel = [include_directories('.')]
+includes_kernel = include_directories('.')
 
 lib_kernel = static_library('kernel',
   sources_kernel,
