@@ -40,7 +40,7 @@ sources = files(
   'kernel/cpu.vapi'
 )
 
-executable('myos.bin',
+executable('kfs.bin',
   sources,
   c_args: '-w',
   dependencies: [dep_kernel, dep_slib],
