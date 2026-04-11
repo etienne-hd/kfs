@@ -49,7 +49,6 @@ static void initialize_pic()
 namespace Idt {
 	public void init()
 	{
-		Memory.set(idt_table, 0, sizeof(Idt.Entry) * 256);
 		initialize_pic();
 		initialize_idt_pointer();
 		load_idt_entry(0x21, (uint32)keyboard_handler_stub, 0x08, 0x8E);
