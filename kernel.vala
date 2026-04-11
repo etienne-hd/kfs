@@ -74,9 +74,7 @@ public void kmain() {
 			// Backspace / Delete
 			if (scancode == Keymap.KEY_BACKSPACE && current.cursor != 0) {
 				Vga.Screen.put_char(' ', current.cursor + Vga.WIDTH - 1);
-				current.update_cursor(current.cursor - 1);
 			}
-
 			else if (scancode == Keymap.KEY_DELETE) {
 				Vga.Screen.put_char(' ', current.cursor + Vga.WIDTH);
 			}

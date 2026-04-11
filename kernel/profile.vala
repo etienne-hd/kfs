@@ -9,14 +9,14 @@ public struct Profile {
 		this.id = id;
 		
 		// Initialize profile
-		memsetw(&this.buffer[Vga.WIDTH], ' ' | Color.pack(WHITE, BLACK) << 8 , (Vga.HEIGHT - 1) * Vga.WIDTH);
+		memsetw(&this.buffer[Vga.WIDTH], Vga.Screen.entry (' ', Color.pack(WHITE, BLACK)), (Vga.HEIGHT - 1) * Vga.WIDTH);
 		// Draw horizontal line
-		memsetw(this.buffer, ' ' | Color.pack(WHITE, LIGHT_RED) << 8 , Vga.WIDTH);
+		memsetw(this.buffer, Vga.Screen.entry(' ', Color.pack(WHITE, LIGHT_RED)), Vga.WIDTH);
 		// Write title
 		uint8 title[32];
 		sprintf(title, "42 - Screen #%d", (int)id);
 		for (uint i = 0; title[i] != '\0'; i++) {
-			this.buffer[i + (Vga.WIDTH / 2 - ((string)title).length / 2)] = title[i] | Color.pack(WHITE, LIGHT_RED) << 8;
+			this.buffer[i + (Vga.WIDTH / 2 - ((string)title).length / 2)] = Vga.Screen.entry(title[i], Color.pack(WHITE, LIGHT_RED));
 		}
 	}
 
@@ -51,16 +51,16 @@ public struct Profile {
 	}
 
 	public void clear () {
-		Memory.setword(Vga.Screen.buffer + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH * (Vga.HEIGHT - 1));
+		Memory.setword(Vga.Screen.buffer + Vga.WIDTH, Vga.Screen.entry(' ', Color.pack(WHITE, BLACK)), Vga.WIDTH * (Vga.HEIGHT - 1));
 	}
 
 	public void clear_line (uint line) {
-		Memory.setword(Vga.Screen.buffer + line + Vga.WIDTH, ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
+		Memory.setword(Vga.Screen.buffer + line + Vga.WIDTH, Vga.Screen.entry(' ', Color.pack(WHITE, BLACK)), Vga.WIDTH);
 	}
 
 	public void scroll_down () {
 		Memory.cpy(Vga.Screen.buffer + Vga.WIDTH, Vga.Screen.buffer + Vga.WIDTH * 2,  Vga.WIDTH * (Vga.HEIGHT - 2) * 2);
-		Memory.setword(Vga.Screen.buffer + Vga.WIDTH * (Vga.HEIGHT - 1), ' ' | Color.pack(WHITE, BLACK) << 8, Vga.WIDTH);
+		Memory.setword(Vga.Screen.buffer + Vga.WIDTH * (Vga.HEIGHT - 1), Vga.Screen.entry(' ', Color.pack(WHITE, BLACK)), Vga.WIDTH);
 	}
 
 	public void update_cursor (uint16 position) {

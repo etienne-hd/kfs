@@ -45,7 +45,7 @@ namespace Vga {
 		private uint16 *buffer = (uint16 *)Vga.MEMORY;
 	
 		public void put_char (uint8 c, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK)) {
-			buffer[pos % (Vga.WIDTH * Vga.HEIGHT)] = c | (color << 8);
+			buffer[pos % (Vga.WIDTH * Vga.HEIGHT)] = entry(c, color);
 		}
 
 		public void put_string (string s, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK))
@@ -58,14 +58,17 @@ namespace Vga {
 				if (overflow)
 					put_char(c, pos, color);
 				else
-					buffer[pos] = c | (color << 8);
+					buffer[pos] = entry(c, color);
 				pos++;
 			}
 		}
 
 		public void clear () {
-			uint16 c = ' ' | (Color.pack(WHITE, BLACK) << 8);
-			Memory.setword(buffer, c, Vga.WIDTH * Vga.HEIGHT);
+			Memory.setword(buffer, entry(' ', Color.pack(WHITE, BLACK) ), Vga.WIDTH * Vga.HEIGHT);
+		}
+
+		public uint16 entry (uint8 c, uint8 color) {
+			return c | (color << 8);
 		}
 	}
 }
