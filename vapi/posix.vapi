@@ -240,6 +240,9 @@ public class string {
         return self[index]; 
     }
 
+	[CCode (cname = "atoi")]
+	public int to_int ();
+
 	public int length {
 		[CCode (cname = "strlen")]
 		get;
