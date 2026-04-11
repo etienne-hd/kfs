@@ -7,10 +7,11 @@ public struct Profile {
 
 	public void init(uint id) {
 		this.id = id;
-		this.cursor = 0;
 		
+		// Initialize profile
 		memsetw(&this.buffer[Vga.WIDTH], ' ' | Color.pack(WHITE, BLACK) << 8 , (Vga.HEIGHT - 1) * Vga.WIDTH);
 		memsetw(this.buffer, ' ' | Color.pack(WHITE, LIGHT_RED) << 8 , Vga.WIDTH);
+
 		uint8 title[32];
 		sprintf(title, "42 - Screen #%d", (int)id);
 		for (uint i = 0; title[i] != '\0'; i++) {
@@ -67,7 +68,7 @@ public struct Profile {
 	}
 
 	public void load() {
-		update_cursor(this.cursor);
+		Vga.Cursor.set_position(this.cursor + Vga.WIDTH);
 		Memory.cpy(Vga.Screen.buffer,  this.buffer, Vga.HEIGHT * Vga.WIDTH * 2);
 	}
 
