@@ -22,13 +22,17 @@ void main() {
 	while (true) {
 		Cpu.hlt();
 
-		uint8 key;
-		while ((key = Keyboard.queue.pop()) != 0){
+		uint8 scancode;
+		while ((scancode = Keyboard.queue.pop()) != 0) {
+			// Ignore when a key is unpressed
+			if ((scancode & 0x80) != 0)
+				continue;
+
 			Profile* current = &profiles[current_profile];
 
-			// Check if the key is mapped to a profile
+			// Check if the scancode is mapped to a profile
 			for (uint8 profile = 0; profile < PROFILE_COUNT; profile++) {
-				if (PROFILES[profile] == key) {
+				if (PROFILES[profile] == scancode) {
 					current.save();
 					profiles[profile].load();
 					current_profile = profile;
@@ -36,9 +40,9 @@ void main() {
 				}
 			}
 
-			// CTRL + L
+			// CTRL + ?
 			if (Keyboard.key_state[Keymap.KEY_CTRL]) {
-				switch (key)
+				switch (scancode)
 				{
 					case Keymap.KEY_L:
 						current.clear();
@@ -59,8 +63,8 @@ void main() {
 			}
 
 			// Character
-			char c = Keymap.get_char(key);
-			if (c != 0 && key != Keymap.KEY_ENTER) {
+			char c = Keymap.get_char(scancode);
+			if (c != 0 && scancode != Keymap.KEY_ENTER) {
 				if (c >= 'a' && c <= 'z' && Keyboard.key_state[Keymap.KEY_SHIFT])
 					Vga.Screen.put_char(c - 32, current.cursor + Vga.WIDTH);
 				else
@@ -68,30 +72,39 @@ void main() {
 			}
 
 			// Backspace / Delete
-			if (key == Keymap.KEY_BACKSPACE && current.cursor != 0) {
+			if (scancode == Keymap.KEY_BACKSPACE && current.cursor != 0) {
 				Vga.Screen.put_char(' ', current.cursor + Vga.WIDTH - 1);
+				current.update_cursor(current.cursor - 1);
 			}
 
-			else if (key == Keymap.KEY_DELETE) {
+			else if (scancode == Keymap.KEY_DELETE) {
 				Vga.Screen.put_char(' ', current.cursor + Vga.WIDTH);
 			}
 
 			// Arrow
-			if ((key == Keymap.KEY_BACKSPACE || key == Keymap.KEY_LEFT) && current.cursor != 0) {
+			if ((scancode == Keymap.KEY_BACKSPACE || scancode == Keymap.KEY_LEFT) && current.cursor != 0) {
 				current.update_cursor(current.cursor - 1);
 			}
-			else if ((c != 0 || key == Keymap.KEY_RIGHT) && current.cursor + 1 < (Vga.HEIGHT - 1) * Vga.WIDTH) {
-				current.update_cursor(current.cursor + 1);
+			else if (c != 0 || scancode == Keymap.KEY_RIGHT) {
+				if (current.cursor + 1 >= (Vga.HEIGHT - 1) * Vga.WIDTH)
+				{
+					// Auto scroll if the cursor is at the bottom right
+					uint16 begin_line = current.cursor - current.cursor % Vga.WIDTH;
+					current.update_cursor(begin_line);
+					current->scroll_down();
+				}
+				else
+					current.update_cursor(current.cursor + 1);
 			}
-			else if ((key == Keymap.KEY_PAGE_DOWN || key == Keymap.KEY_UP) && current.cursor >= Vga.WIDTH) {
+			else if ((scancode == Keymap.KEY_PAGE_DOWN || scancode == Keymap.KEY_UP) && current.cursor >= Vga.WIDTH) {
 				current.update_cursor(current.cursor - Vga.WIDTH);
 			}
-			else if (key == Keymap.KEY_DOWN && current.cursor + Vga.WIDTH < (Vga.HEIGHT - 1) * Vga.WIDTH) {
+			else if (scancode == Keymap.KEY_DOWN && current.cursor + Vga.WIDTH < (Vga.HEIGHT - 1) * Vga.WIDTH) {
 				current.update_cursor(current.cursor + Vga.WIDTH);
 			}
 
 			// Page Down
-			if (key == Keymap.KEY_PAGE_DOWN) {
+			if (scancode == Keymap.KEY_PAGE_DOWN) {
 				current.scroll_down();
 			}
 		}
