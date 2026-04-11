@@ -8,7 +8,7 @@ const uint8 PROFILES[] = {
 	Keymap.KEY_F4,
 };
 
-void main() {
+public void kmain() {
 	Serial.print ("Kernel started\n");
 	Idt.init();
 	Vga.Cursor.enable();
