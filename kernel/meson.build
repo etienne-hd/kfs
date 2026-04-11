@@ -8,6 +8,7 @@ sources_kernel = files(
   'serial_print.vala',
   'cpu.vapi',
   'queue.vala',
+  'timer.vala'
 )
 
 subdir('idt')

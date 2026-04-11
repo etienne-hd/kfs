@@ -1,6 +1,9 @@
 private Idt.Entry idt_table[256];
 private Idt.Pointer idt_ptr;
 
+[CCode (cname = "timer_handler_stub")]
+extern void timer_handler_stub ();
+
 [CCode (cname = "keyboard_handler_stub")]
 extern void keyboard_handler_stub ();
 
@@ -47,8 +50,8 @@ namespace Idt {
 		/* Initialization finished */
 	
 		/* mask interrupts */
-		Cpu.outb(0x21, 0xFD); // IRQ1 only
-		Cpu.outb(0xA1, 0xFF);
+		Cpu.outb(0x21, 0x00);
+		Cpu.outb(0xA1, 0x00);
 	}
 
 	public void init ()
@@ -60,6 +63,7 @@ namespace Idt {
 		load_idt_entry(0x00, (uint32)divide_handler_stub, 0x08, 0x8E);
 
 		// IRQ
+		load_idt_entry(0x20, (uint32)timer_handler_stub, 0x08, 0x8E);
 		load_idt_entry(0x21, (uint32)keyboard_handler_stub, 0x08, 0x8E);
 
 		Idt.load((uint32)&idt_ptr);
