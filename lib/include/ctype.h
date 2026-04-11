@@ -3,7 +3,6 @@
 static int	isalpha(int c)
 {
 	return (('a' <= c && 'z' >= c) || ('A' <= c && 'Z' >= c));
-
 }
 
 static int	isascii(int c)
@@ -24,7 +23,6 @@ static int	isprint(int c)
 static int	isspace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
-
 }
 
 static int	tolower(int c)

@@ -5,8 +5,6 @@ extern void kernel_panic(char *message);
 void* malloc(size_t nmemb) {
     (void)nmemb;
 	kernel_panic("malloc() is not implemented in this environment");
-	// for(;;)
-		// ; 
     return NULL; 
 }
 
