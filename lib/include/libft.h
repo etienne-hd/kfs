@@ -30,25 +30,17 @@ inline static size_t	high_mask(void)
 	return ((size_t)-1 / 255 << 7);
 }
 
-int atoi(const char *str);
+// int atoi(const char *str);
 void free(void* ptr) ;
-int isalnum(int c);
-int isalpha(int c);
-int isascii(int c);
-int isdigit(int c);
-int isprint(int c);
-int isspace(char c);
 void* malloc(size_t nmemb) ;
-char *strcat(char *dest, const char *src);
-char *strchr(const char *s, int c);
-int strcmp(const char *s1, const char *s2);
-char *strcpy(char *dest, const char *src);
-size_t strlen(const char *s);
-int strncmp(const char *s1, const char *s2, size_t n);
-char *strnstr(const char *haystack, const char *needle, size_t len);
-char *strrchr(const char *s, int c);
-char *strstr(const char *haystack, const char *needle);
-int tolower(int c);
-int toupper(int c);
+// char *strcat(char *dest, const char *src);
+// char *strchr(const char *s, int c);
+// int strcmp(const char *s1, const char *s2);
+// char *strcpy(char *dest, const char *src);
+// size_t strlen(const char *s);
+// int strncmp(const char *s1, const char *s2, size_t n);
+// char *strnstr(const char *haystack, const char *needle, size_t len);
+// char *strrchr(const char *s, int c);
+// char *strstr(const char *haystack, const char *needle);
 
 #endif

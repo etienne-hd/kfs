@@ -1,32 +1,3 @@
-/* posix.vapi
- *
- * Copyright (C) 2008-2009  Jürg Billeter
- * Copyright (C) 2010 Marco Trevisan (Treviño)
- * Copyright (C) 2013 Nikolay Orliuk
- * Copyright (C) 2020-2025 Reuben Thomas
- * Copyright (C) 2021 Nikola Hadžić
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
- *
- * Author:
- * 	Jürg Billeter <j@bitron.ch>
- *  Marco Trevisan (Treviño) <mail@3v1n0.net>
- *  Nikolay Orliuk <virkony@gmail.com>
- *  Nikola Hadžić <nikola.hadzic.000@protonmail.com>
- */
-
 #if POSIX
 [CCode (cname = "bool", cheader_filename = "stdbool.h", default_value = "false")]
 [BooleanType]
@@ -51,42 +22,42 @@ public struct bool {
 [CCode (cname = "char", default_value = "\'\\0\'")]
 [IntegerType (rank = 2, min = 0, max = 127)]
 public struct char {
-	[CCode (cname = "isalnum")]
+	[CCode (cname = "isalnum", cheader_filename = "ctype.h")]
 	public char is_alnum ();
-	[CCode (cname = "isalpha")]
+	[CCode (cname = "isalpha", cheader_filename = "ctype.h")]
 	public char is_alpha ();
-	[CCode (cname = "isascii")]
+	[CCode (cname = "isascii", cheader_filename = "ctype.h")]
 	public char is_ascii ();
-	[CCode (cname = "isdigit")]
+	[CCode (cname = "isdigit", cheader_filename = "ctype.h")]
 	public char is_digit ();
-	[CCode (cname = "isprint")]
+	[CCode (cname = "isprint", cheader_filename = "ctype.h")]
 	public char is_print ();
-	[CCode (cname = "isspace")]
+	[CCode (cname = "isspace", cheader_filename = "ctype.h")]
 	public char is_space ();
-	[CCode (cname = "tolower")]
+	[CCode (cname = "tolower", cheader_filename = "ctype.h")]
 	public char to_lower ();
-	[CCode (cname = "toupper")]
+	[CCode (cname = "toupper", cheader_filename = "ctype.h")]
 	public char to_upper ();
 }
 
 [CCode (cname = "unsigned char", default_value = "\'\\0\'")]
 [IntegerType (rank = 3, min = 0, max = 255)]
 public struct uchar {
-	[CCode (cname = "isalnum")]
+	[CCode (cname = "isalnum", cheader_filename = "ctype.h")]
 	public uchar is_alnum ();
-	[CCode (cname = "isalpha")]
+	[CCode (cname = "isalpha", cheader_filename = "ctype.h")]
 	public uchar is_alpha ();
-	[CCode (cname = "isascii")]
+	[CCode (cname = "isascii", cheader_filename = "ctype.h")]
 	public uchar is_ascii ();
-	[CCode (cname = "isdigit")]
+	[CCode (cname = "isdigit", cheader_filename = "ctype.h")]
 	public uchar is_digit ();
-	[CCode (cname = "isprint")]
+	[CCode (cname = "isprint", cheader_filename = "ctype.h")]
 	public uchar is_print ();
-	[CCode (cname = "isspace")]
+	[CCode (cname = "isspace", cheader_filename = "ctype.h")]
 	public uchar is_space ();
-	[CCode (cname = "tolower")]
+	[CCode (cname = "tolower", cheader_filename = "ctype.h")]
 	public uchar to_lower ();
-	[CCode (cname = "toupper")]
+	[CCode (cname = "toupper", cheader_filename = "ctype.h")]
 	public uchar to_upper ();
 }
 
@@ -180,9 +151,10 @@ public struct float {
 public struct double {
 }
 
-[CCode (cname = "uintptr_t", cheader_filename = "stdint.h")]
-public struct uintptr : size_t {
 
+[CCode (cname = "uintptr_t", cheader_filename = "stdint.h", has_type_id = false)]
+[IntegerType (rank = 9)]
+public struct uintptr {
 }
 
 [SimpleType]
@@ -200,22 +172,6 @@ public struct va_list {
 [Immutable]
 [CCode (cname = "char", const_cname = "const char", free_function = "free", cheader_filename = "libft.h")]
 public class string {
-	// [PrintfFormat]
-	// public string printf (...);
-
-	// public string concat (...) {
-		// string result = this;
-		// var l = va_list ();
-		// while (true) {
-			// unowned string? arg = l.arg ();
-			// if (arg == null) {
-				// break;
-			// } else {
-				// result += arg;
-			// }
-		// }
-		// return result;
-	// }
 
     [CCode (cname = "vala_string_has_prefix")]
 	public bool has_prefix (string prefix) {
@@ -284,7 +240,7 @@ public class string {
         return self[index]; 
     }
 
-	public int length{
+	public int length {
 		[CCode (cname = "strlen")]
 		get;
 	}
@@ -294,31 +250,13 @@ public class string {
 		get;
 	}
 
-	public unowned uint8[] data{
+	public unowned uint8[] data {
 		[CCode (cname = "vala_string_data")]
 		get {
 			return (uint8[])this;
 		}
 	}
 }
-
-[CCode (cname = "strncmp")]
-public static int strncmp(char *s1, char *s2, size_t n);
-[CCode (cname = "strchr")]
-public static char *strchr(char *s, int c);
-[CCode (cname = "strstr")]
-public static char *strstr(char *haystack, char *needle);
-[CCode (cname = "strcmp")]
-public static int strcmp(char *s1, char *s2);
-[CCode (cname = "atoi")]
-public static int atoi(char *str);
-[CCode (cname = "strcat")]
-public static char *strcat(char *dest, char *src);
-[CCode (cname = "strcpy")]
-public static char *strcpy(char *dest, char *src);
-// [CCode (cname="printf", cheader_filename = "stdio.h")]
-// [PrintfFormat]
-// public void print (string format,...);
 
 #endif
 
@@ -343,5 +281,4 @@ namespace Posix {
 		[CCode (cname = "bzero")]
 		public void bzero(void *s, size_t n);
 	}
-
 }

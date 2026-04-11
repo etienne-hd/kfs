@@ -1,6 +1,5 @@
 sources_slibc = files('slib.vapi')
 
-subdir('char')
 subdir('memory')
 subdir('string')
 subdir('alloc')

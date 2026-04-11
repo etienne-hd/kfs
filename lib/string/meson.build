@@ -1,13 +1,13 @@
 
 sources_slibc += files(
-  'atoi.c',
-  'strcat.c',
-  'strchr.c',
-  'strcmp.c',
-  'strcpy.c',
-  'strlen.c',
-  'strncmp.c',
-  'strnstr.c',
-  'strrchr.c',
-  'strstr.c',
+  'atoi.vala',
+  'strcat.vala',
+  'strchr.vala',
+  'strcmp.vala',
+  'strcpy.vala',
+  'strlen.vala',
+  'strncmp.vala',
+  'strnstr.vala',
+  'strrchr.vala',
+  'strstr.vala',
 )
