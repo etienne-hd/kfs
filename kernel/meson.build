@@ -7,9 +7,13 @@ sources_kernel = files(
   'profile.vala',
   'serial_print.vala',
   'cpu.vapi',
+  'idt.asm',
+  'idt.vapi',
+  'idt.vala',
+  'queue.vala'
 )
 
-includes_kernel = [include_directories('.')]
+includes_kernel = include_directories('.')
 
 lib_kernel = static_library('kernel',
   sources_kernel,
