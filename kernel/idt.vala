@@ -1,9 +1,6 @@
 Idt.Entry idt_table[256];
 Idt.Pointer idt_ptr;
 
-[CCode (delegate_target = false)]
-delegate void KeyBoardHandler ();
-
 [CCode (cname = "keyboard_handler_stub")]
 extern void keyboard_handler_stub ();
 
