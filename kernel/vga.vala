@@ -25,7 +25,7 @@ namespace Vga {
 			return pos;
 		}
 
-		public static void enable(uint8 cursor_start = 14, uint8 cursor_end = 15)
+		public static void enable (uint8 cursor_start = 14, uint8 cursor_end = 15)
 		{
 			Cpu.outb(REGISTER, 0x0A);
 			Cpu.outb(VALUE, (Cpu.inb(0x3D5) & 0xC0) | cursor_start);
@@ -34,7 +34,7 @@ namespace Vga {
 			Cpu.outb(VALUE, (Cpu.inb(0x3D5) & 0xE0) | cursor_end);
 		}
 
-		public static void disable()
+		public static void disable ()
 		{
 			Cpu.outb(REGISTER, 0x0A);
 			Cpu.outb(VALUE, 0x20);
@@ -44,11 +44,11 @@ namespace Vga {
 	namespace Screen {
 		private uint16 *buffer = (uint16 *)Vga.MEMORY;
 	
-		public void put_char(uint8 c, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK)) {
+		public void put_char (uint8 c, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK)) {
 			buffer[pos % (Vga.WIDTH * Vga.HEIGHT)] = c | (color << 8);
 		}
 
-		public void put_string(string s, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK))
+		public void put_string (string s, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK))
 		{
 			foreach (char c in s)
 				put_char (c, pos++, color);

@@ -13,13 +13,13 @@ private void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 f
 	idt_table[isr_number].zero = 0;
 }
 
-private void initialize_idt_pointer()
+private void initialize_idt_pointer ()
 {
 	idt_ptr.limit = (uint16)((sizeof(Idt.Entry) * 256) - 1);
 	idt_ptr.base = (uint32)&idt_table;
 }
 
-private void initialize_pic()
+private void initialize_pic ()
 {
 	/* ICW1 - begin initialization */
 	Cpu.outb(0x20, 0x11);
@@ -48,7 +48,7 @@ private void initialize_pic()
 }
 
 namespace Idt {
-	public void init()
+	public void init ()
 	{
 		initialize_pic();
 		initialize_idt_pointer();

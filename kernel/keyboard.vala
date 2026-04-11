@@ -31,7 +31,7 @@ namespace Keyboard {
 		KEY_PAGE_DOWN = 0x51, KEY_PAGE_UP = 0x49, KEY_DELETE = 0x53;
 
 
-		public static char get_char(Keymap key) {
+		public static char get_char (Keymap key) {
 			switch (key) {
 				case KEY_Q: return 'q'; case KEY_W: return 'w'; case KEY_E: return 'e';
 				case KEY_R: return 'r'; case KEY_T: return 't'; case KEY_Y: return 'y';
@@ -62,7 +62,7 @@ namespace Keyboard {
 	}
 
 	[CCode (cname="keyboard_handler")]
-	public void handler() {
+	public void handler () {
 		uint8 scancode = Cpu.inb(0x60);
 		Keyboard.key_state[scancode & 0x7F] = scancode < 0x80;
 		Keyboard.queue.push(scancode);
