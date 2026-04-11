@@ -7,14 +7,11 @@ sources_kernel = files(
   'profile.vala',
   'serial_print.vala',
   'cpu.vapi',
-  'idt.asm',
-  'idt.vapi',
-  'idt.vala',
   'queue.vala',
 )
 
 subdir('idt')
-includes_kernel = include_directories('.')
+includes_kernel = include_directories('.', 'idt')
 
 lib_kernel = static_library('kernel',
   sources_kernel,
