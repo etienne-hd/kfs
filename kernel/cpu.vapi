@@ -1,4 +1,3 @@
-[CCode (cprefix = "", lower_case_cprefix = "")]
 namespace Cpu {
     [CCode (cname = "outb")]
     public void outb (uint16 port, uint8 data);
@@ -6,12 +5,12 @@ namespace Cpu {
     [CCode (cname = "inb")]
     public uint8 inb (uint16 port);
 
-    [CCode (cname = "cli")]
-    public void cli ();
+    [CCode (cname = "asm")]
+    public void cli (string code = "cli");
 
-    [CCode (cname = "sti")]
-    public void sti ();
+    [CCode (cname = "asm")]
+    public void sti (string code = "sti");
 
-    [CCode (cname = "hlt")]
-    public void hlt ();
+    [CCode (cname = "asm")]
+    public void hlt (string code = "hlt");
 }
