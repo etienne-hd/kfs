@@ -3,7 +3,7 @@ public struct Queue {
 	uint8 head;
 	uint8 tail;
 
-	public uint8 get() {
+	public uint8 pop() {
 		if (this.tail != this.head) {
 			this.tail++;
 			return this.buffer[this.tail - 1];
@@ -11,7 +11,7 @@ public struct Queue {
 		return 0;
 	}
 
-	public void add(uint8 value) {
+	public void push(uint8 value) {
 		buffer[head] = value;
 		head++;
 		if (this.head == this.tail)
