@@ -4,6 +4,9 @@ private Idt.Pointer idt_ptr;
 [CCode (cname = "keyboard_handler_stub")]
 extern void keyboard_handler_stub ();
 
+[CCode (cname = "div_handler_stub")]
+extern void div_handler_stub ();
+
 private void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 flags)
 {
 	idt_table[isr_number].offset_lowerbits = (uint16)(func & 0xFFFF);
@@ -50,8 +53,13 @@ private void initialize_pic ()
 namespace Idt {
 	public void init ()
 	{
+		Cpu.sti ();
 		initialize_pic();
 		initialize_idt_pointer();
+
+		load_idt_entry(0x00, (uint32)div_handler_stub, 0x08, 0x8E);
+
+		// IRQ
 		load_idt_entry(0x21, (uint32)keyboard_handler_stub, 0x08, 0x8E);
 
 		Idt.load((uint32)&idt_ptr);

@@ -1,4 +1,5 @@
 extern keyboard_handler
+extern div_handler
 
 global load_idt
 load_idt:
@@ -12,6 +13,15 @@ keyboard_handler_stub:
 	pusha
 
 	call keyboard_handler
+
+	popa
+	iretd
+
+global div_handler_stub
+div_handler_stub:
+	pusha
+
+	call div_handler
 
 	popa
 	iretd

@@ -10,9 +10,10 @@ sources_kernel = files(
   'idt.asm',
   'idt.vapi',
   'idt.vala',
-  'queue.vala'
+  'queue.vala',
 )
 
+subdir('idt')
 includes_kernel = include_directories('.')
 
 lib_kernel = static_library('kernel',
