@@ -10,6 +10,7 @@ sources_kernel = files(
   'idt.asm',
   'idt.vapi',
   'idt.vala',
+  'queue.vala'
 )
 
 includes_kernel = include_directories('.')

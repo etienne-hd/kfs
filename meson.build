@@ -37,6 +37,7 @@ subdir('kernel')
 sources = files(
   'boot.s',
   'kernel.vala',
+  'kernel/cpu.vapi'
 )
 
 executable('myos.bin',

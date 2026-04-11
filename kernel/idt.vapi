@@ -17,6 +17,7 @@ namespace Idt {
 		uint16 limit;
 		uint32 base;
 	}
+	
+	[CCode (cname = "load_idt")]
+	public void load(uint32 ptr);
 }
-
-public void load_idt(uint32 ptr);

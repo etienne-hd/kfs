@@ -1,5 +1,6 @@
 namespace Keyboard {
 	public bool key_state[0x7F];
+	public Queue queue;
 
 	public enum Keymap {
 		KEY_Q = 0x10, KEY_W = 0x11, KEY_E = 0x12, KEY_R = 0x13, KEY_T = 0x14,
@@ -60,10 +61,11 @@ namespace Keyboard {
 		}
 	}
 
-	public Keymap get_key()
-	{
-		Keymap inputdata = (Keymap)Cpu.inb(0x60);
-		key_state[inputdata & 0x7F] = inputdata < 0x80;
-		return inputdata;
+	[CCode (cname="keyboard_handler")]
+	public void handler() {
+		uint8 scancode = Cpu.inb(0x60);
+		Keyboard.key_state[scancode & 0x7F] = scancode < 0x80;
+		Keyboard.queue.push(scancode);
+		Cpu.outb(0x20, 0x20);
 	}
 }

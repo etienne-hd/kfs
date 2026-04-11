@@ -16,12 +16,6 @@ void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 flags)
 	idt_table[isr_number].zero = 0;
 }
 
-public void keyboard_handler() {
-	uint8 scancode = Cpu.inb(0x60);
-	Serial.print("Hello, World %d\n", scancode);
-	Cpu.outb(0x20, 0x20);
-}
-
 static void initialize_idt_pointer()
 {
 	idt_ptr.limit = (uint16)((sizeof(Idt.Entry) * 256) - 1);
@@ -55,18 +49,14 @@ static void initialize_pic()
 	Cpu.outb(0x21, 0xFD); // IRQ1 only
 	Cpu.outb(0xA1, 0xFF);
 }
+namespace Idt {
+	public void init()
+	{
+		Memory.set(idt_table, 0, sizeof(Idt.Entry) * 256);
+		initialize_pic();
+		initialize_idt_pointer();
+		load_idt_entry(0x21, (uint32)keyboard_handler_stub, 0x08, 0x8E);
 
-public void idt_init()
-{
-	Memory.set(idt_table, 0, sizeof(Idt.Entry) * 256);
-	initialize_pic();
-	initialize_idt_pointer();
-	load_idt_entry(0x21, (uint32)keyboard_handler_stub, 0x08, 0x8E);
-
-	load_idt((uint32)&idt_ptr);
-
-	Cpu.sti();
-	while (true) {
-		Cpu.hlt();
+		Idt.load((uint32)&idt_ptr);
 	}
 }
