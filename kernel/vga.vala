@@ -50,8 +50,17 @@ namespace Vga {
 
 		public void put_string (string s, uint16 pos = 0, Color color = Color.pack (WHITE, BLACK))
 		{
+			bool overflow = false;
+			if (s.size + pos > Vga.WIDTH * Vga.HEIGHT)
+				overflow = true;
 			foreach (char c in s)
-				put_char (c, pos++, color);
+			{
+				if (overflow)
+					put_char(c, pos, color);
+				else
+					buffer[pos] = c | (color << 8);
+				pos++;
+			}
 		}
 
 		public void clear () {
