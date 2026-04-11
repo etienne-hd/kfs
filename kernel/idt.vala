@@ -1,10 +1,10 @@
-Idt.Entry idt_table[256];
-Idt.Pointer idt_ptr;
+private Idt.Entry idt_table[256];
+private Idt.Pointer idt_ptr;
 
 [CCode (cname = "keyboard_handler_stub")]
 extern void keyboard_handler_stub ();
 
-void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 flags)
+private void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 flags)
 {
 	idt_table[isr_number].offset_lowerbits = (uint16)(func & 0xFFFF);
 	idt_table[isr_number].offset_higherbits = (uint16)((func >> 16) & 0xFFFF);
@@ -13,13 +13,13 @@ void load_idt_entry(int isr_number, uint32 func, int16 selector, uint8 flags)
 	idt_table[isr_number].zero = 0;
 }
 
-static void initialize_idt_pointer()
+private void initialize_idt_pointer()
 {
 	idt_ptr.limit = (uint16)((sizeof(Idt.Entry) * 256) - 1);
 	idt_ptr.base = (uint32)&idt_table;
 }
 
-static void initialize_pic()
+private void initialize_pic()
 {
 	/* ICW1 - begin initialization */
 	Cpu.outb(0x20, 0x11);
@@ -46,6 +46,7 @@ static void initialize_pic()
 	Cpu.outb(0x21, 0xFD); // IRQ1 only
 	Cpu.outb(0xA1, 0xFF);
 }
+
 namespace Idt {
 	public void init()
 	{
