@@ -22,13 +22,34 @@ public void kmain() {
 	while (true) {
 		Cpu.hlt();
 
+		Profile* current = &profiles[current_profile];
+
+		// Mouse
+		Mouse.Event mouse_event;
+		while ((mouse_event = Mouse.get_event()).initialized == true) {
+			uint16 new_cursor = current->cursor;
+			int16 new_x = mouse_event.x / 2;
+			int16 new_y = (mouse_event.y / 2) * Vga.WIDTH;
+
+			if ((Vga.WIDTH + new_cursor + new_x) / Vga.WIDTH == (Vga.WIDTH + new_cursor) / Vga.WIDTH)
+				new_cursor += new_x;
+			if (new_cursor - new_y < Vga.WIDTH * (Vga.HEIGHT - 1) && (Vga.WIDTH + new_cursor - new_y >= Vga.WIDTH))
+				new_cursor -= new_y;
+
+			if (mouse_event.right_click == true && Mouse.previous_event.right_click == false)
+				current->color = (current->color + 1) % 16;
+			if (mouse_event.left_click)
+				Vga.Screen.put_char(' ', new_cursor + Vga.WIDTH, Color.pack(WHITE, current->color));
+			current->update_cursor(new_cursor);
+		}
+
+		// Keyboard
 		uint8 scancode;
 		while ((scancode = Keyboard.queue.pop()) != 0) {
 			// Ignore when a key is unpressed
 			if ((scancode & 0x80) != 0)
 				continue;
 
-			Profile* current = &profiles[current_profile];
 
 			// Check if the scancode is mapped to a profile
 			for (uint8 profile = 0; profile < PROFILE_COUNT; profile++) {
