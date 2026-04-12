@@ -1,0 +1,1 @@
+option('make_iso', type: 'boolean', value: true, description: 'Whether to make an ISO image of the installation media')

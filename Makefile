@@ -1,8 +1,6 @@
-BINARY=build/kfs.bin
+all: install
 
-all: ${BINARY}
-
-${BINARY}: build
+compile: build
 	ninja -C build
 
 re:
@@ -10,13 +8,10 @@ re:
 	$(MAKE) all
 
 build:
-	meson build --cross-file=i386-elf-cross.txt --buildtype=release --prefix=${PWD}/here
+	meson build --cross-file=i386-elf-cross.txt --buildtype=release --prefix=${PWD}/release
 
-kfs.iso: all
-	mkdir -p isodir/boot/grub
-	cp ${BINARY} isodir/boot/kfs.bin
-	cp grub.cfg isodir/boot/grub/grub.cfg
-	grub-mkrescue -o kfs.iso isodir --compress=gz
-
+install: compile 
+	meson install -C build
+	
 run: ${BINARY} 
 	qemu-system-i386 -serial stdio --kernel ${BINARY}
