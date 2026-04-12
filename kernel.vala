@@ -9,6 +9,7 @@ const uint8 PROFILES[] = {
 };
 
 public void kmain() {
+	Color.init();
 	Serial.print ("Kernel started\n");
 	Idt.init();
 	Vga.Cursor.enable();
