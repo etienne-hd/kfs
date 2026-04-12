@@ -35,7 +35,7 @@ subdir('kernel')
 
 
 sources = files(
-  'boot.s',
+  'boot.asm',
   'kernel.vala',
   'kernel/cpu.vapi'
 )
