@@ -1,6 +1,7 @@
 namespace Mouse {
 	public Queue queue;
-	public Event last_event;
+	public Event previous_event;
+	private Event _current_event;
 
 	public struct Event {
 		int8 x;
@@ -8,23 +9,24 @@ namespace Mouse {
 		bool left_click;
 		bool right_click;
 		bool middle_click;
-	}
-	
-	public bool new_event () {
-		if (queue.length() % 3 == 0)
-			return queue.length() > 0;
-		else {
-			queue.reset(); // Resync
-			return false;
-		}
+
+		bool initialized;
 	}
 
 	public Event get_event () {
+		Event event = {0};
+
+		if (queue.length() % 3 != 0 || queue.length () == 0) {
+			if (queue.length () != 0)
+				queue.reset();
+			return event;
+		}
+
+		event.initialized = true;
+
 		uint8 byte_flag = queue.pop();
 		uint8 byte_x = queue.pop();
 		uint8 byte_y = queue.pop();
-
-		Event event = {0};
 
 		event.left_click = (byte_flag & (1 << 0)) > 0; // 0000_0001
 		event.right_click = (byte_flag & (1 << 1)) > 0; // 0000_0010
@@ -33,7 +35,8 @@ namespace Mouse {
 		event.x = (int8)byte_x;
 		event.y = (int8)byte_y;
 
-		last_event = event;
+		previous_event = _current_event;
+		_current_event = event;
 		return event;
 	}
 }
