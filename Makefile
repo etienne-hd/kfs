@@ -13,5 +13,5 @@ build:
 install: compile 
 	meson install -C build
 	
-run: ${BINARY} 
-	qemu-system-i386 -serial stdio --kernel ${BINARY}
+run: install
+	qemu-system-i386 -serial stdio --kernel release/kfs.bin
