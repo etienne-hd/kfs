@@ -21,4 +21,14 @@ public struct Queue {
 	public void reset () {
 		this.head = this.tail;
 	}
+
+	public uint8 length () {
+		uint8 tmp = tail;
+		uint8 length = 0;
+		while (tmp != head) {
+			length++;	
+			tmp++;
+		}
+		return (length);
+	}
 }

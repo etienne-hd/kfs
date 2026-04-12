@@ -4,9 +4,11 @@ public struct Profile {
 	uint id;
 	uint16 buffer[Vga.HEIGHT * Vga.WIDTH];
 	uint16 cursor;
+	uint8 color;
 
 	public void init (uint id) {
 		this.id = id;
+		this.color = Color.LIGHT_MAGENTA;
 		
 		// Initialize profile
 		memsetw(&this.buffer[Vga.WIDTH], Vga.Screen.entry (' ', Color.pack(WHITE, BLACK)), (Vga.HEIGHT - 1) * Vga.WIDTH);
