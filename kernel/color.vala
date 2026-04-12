@@ -17,6 +17,7 @@ public enum Color {
 	WHITE;
 
 	public inline static Color pack (Color fg, Color bg) {
-		return (fg | bg << 4);
+		// return (fg | bg << 4);
+		return (fg | (bg & 0x07) << 4);
 	}
 }
