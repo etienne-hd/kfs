@@ -54,7 +54,10 @@ namespace Idt {
 	}
 
 	private void initialize_ps2_mouse() {
-		uint8 status = Cpu.inb(0x64);
+		Cpu.outb(0x64, 0xA8); // enable aux device
+		Cpu.outb(0x64, 0x20); // read cmd byte
+
+		uint8 status = Cpu.inb(0x60);
 		Cpu.outb(0x64, 0x60);
 		Cpu.outb(0x60, status | 0x02);
 
