@@ -1,6 +1,6 @@
 # kfs
 
-`kfs-1` implements the early foundations of an operating system, including a working interrupt system, hardware input handling, and VGA-based rendering. The codebase is structured using namespaces and structured types to maintain clarity and modularity.
+`kfs-1` implements the early foundations of a kernel, including a working interrupt system, hardware input handling, and VGA-based rendering. The codebase is structured using namespaces and structured types to maintain clarity and modularity.
 
 ![illustration](images/illustration.png)
 
